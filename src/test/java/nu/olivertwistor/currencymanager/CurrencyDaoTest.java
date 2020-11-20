@@ -79,16 +79,23 @@ final class CurrencyDaoTest
     }
 
     @Test
-    public void When_GettingAll_Then_ThreeRecordsAreReturned()
-            throws SQLException
+    void When_GettingNonexistingId_Then_EmptyOptionalIsReturned()
+            throws Exception
+    {
+        final Optional<Currency> currency = currencyDao.get(10);
+        Assertions.assertEquals(Optional.empty(), currency);
+    }
+
+    @Test
+    void When_GettingAll_Then_ThreeRecordsAreReturned() throws Exception
     {
         final List<Currency> currencies = currencyDao.getAll();
         Assertions.assertEquals(3, currencies.size());
     }
 
     @Test
-    public void When_ExistingCurrencyIsSaved_Then_ItGetsUpdatedInDatabase()
-            throws SQLException
+    void When_ExistingCurrencyIsSaved_Then_ItGetsUpdatedInDatabase()
+            throws Exception
     {
         final Currency currency = new Currency(1, "DKK");
         currencyDao.save(currency);
@@ -109,5 +116,24 @@ final class CurrencyDaoTest
         // Let's retrieve the currency with ID 4. It should exist.
         final Optional<Currency> dbCurrency = currencyDao.get(4);
         Assertions.assertNotEquals(Optional.empty(), dbCurrency);
+    }
+
+    @Test
+    void When_DeletingOneItem_Then_NumberOfRowsIsOneFewer() throws Exception
+    {
+        // First, count the number of items before deleting.
+        final List<Currency> listBefore = currencyDao.getAll();
+        final int nItemsBefore = listBefore.size();
+
+        // Delete one item.
+        final Currency currency = new Currency();
+        currency.setId(1);
+        currencyDao.delete(currency);
+
+        // Count the number of items again.
+        final List<Currency> listAfter = currencyDao.getAll();
+        final int nItemsAfter = listAfter.size();
+
+        Assertions.assertEquals(1, nItemsBefore - nItemsAfter);
     }
 }

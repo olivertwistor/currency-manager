@@ -75,7 +75,7 @@ public class CurrencyDao implements Dao<Currency>
     }
 
     @Override
-    public List<Currency> getAll() throws SQLException
+    public List<Currency> getAll() throws SQLException, SQLTimeoutException
     {
         log.debug("Trying to get all currency objects.");
 
@@ -89,19 +89,14 @@ public class CurrencyDao implements Dao<Currency>
             {
                 try (final ResultSet resultSet = statement.executeQuery(sql))
                 {
-                    // SQLite closes the result set if it's empty, so we have
-                    // to test for that prior to moving the row cursor.
-                    if (!resultSet.isClosed())
+                    while (resultSet.next())
                     {
-                        while (resultSet.next())
-                        {
-                            final Currency currency = new Currency();
-                            currency.setId(resultSet.getInt("id"));
-                            currency.setName(resultSet.getString("name"));
+                        final Currency currency = new Currency();
+                        currency.setId(resultSet.getInt("id"));
+                        currency.setName(resultSet.getString("name"));
 
-                            log.debug("Found currency: {0}", currency);
-                            currencies.add(currency);
-                        }
+                        log.debug("Found {0}", currency);
+                        currencies.add(currency);
                     }
                 }
             }
@@ -111,7 +106,8 @@ public class CurrencyDao implements Dao<Currency>
     }
 
     @Override
-    public void save(final Currency currency) throws SQLException
+    public void save(final Currency currency)
+            throws SQLException, SQLTimeoutException
     {
         log.debug("Trying to save {0}.", currency);
 
@@ -131,7 +127,7 @@ public class CurrencyDao implements Dao<Currency>
 
                 try (final ResultSet resultSet = statement.executeQuery())
                 {
-                    alreadyExists = !resultSet.isClosed() && resultSet.next();
+                    alreadyExists = resultSet.next();
 
                     if (alreadyExists)
                     {
@@ -183,8 +179,23 @@ public class CurrencyDao implements Dao<Currency>
 
     @Override
     public void delete(final Currency currency)
+            throws SQLException, SQLTimeoutException
     {
-        throw new UnsupportedOperationException("not implemented");
+        log.debug("Trying to delete {0} from the database.", currency);
+
+        try (final Connection connection = this.database.getConnection())
+        {
+            final String sql = "DELETE FROM currency WHERE id = ?";
+
+            try (final PreparedStatement statement =
+                         connection.prepareStatement(sql))
+            {
+                statement.setInt(1, currency.getId());
+                statement.execute();
+
+                log.info("Deleted {0} from the database.", currency);
+            }
+        }
     }
 
     @Override
