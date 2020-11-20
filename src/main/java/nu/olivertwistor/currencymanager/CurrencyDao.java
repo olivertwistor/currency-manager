@@ -8,6 +8,8 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.SQLTimeoutException;
+import java.sql.Statement;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -74,9 +76,39 @@ public class CurrencyDao implements Dao<Currency>
     }
 
     @Override
-    public List<Currency> getAll()
+    public List<Currency> getAll() throws SQLException
     {
-        throw new UnsupportedOperationException("not implemented");
+        log.debug("Trying to get all currency objects.");
+
+        final List<Currency> currencies = new ArrayList<>();
+
+        final String sql = "SELECT id, name FROM currency";
+
+        try (final Connection connection = this.database.getConnection())
+        {
+            try (final Statement statement = connection.createStatement())
+            {
+                try (final ResultSet resultSet = statement.executeQuery(sql))
+                {
+                    // SQLite closes the result set if it's empty, so we have
+                    // to test for that prior to moving the row cursor.
+                    if (!resultSet.isClosed())
+                    {
+                        while (resultSet.next())
+                        {
+                            final Currency currency = new Currency();
+                            currency.setId(resultSet.getInt("id"));
+                            currency.setName(resultSet.getString("name"));
+
+                            log.debug("Found currency: {0}", currency);
+                            currencies.add(currency);
+                        }
+                    }
+                }
+            }
+        }
+
+        return currencies;
     }
 
     @Override

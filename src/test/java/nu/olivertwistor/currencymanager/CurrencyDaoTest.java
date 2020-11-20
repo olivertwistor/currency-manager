@@ -10,11 +10,13 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.List;
 import java.util.Optional;
 
 public class CurrencyDaoTest
 {
     private static Database database;
+    private static Dao<Currency> currencyDao;
 
     @SuppressWarnings("SqlWithoutWhere")
     @BeforeAll
@@ -22,6 +24,7 @@ public class CurrencyDaoTest
             throws FileNotFoundException, SQLException, URISyntaxException
     {
         database = new Database("/test.sqlite3");
+        currencyDao = new CurrencyDao(database);
 
         try (final Connection connection = database.getConnection())
         {
@@ -53,14 +56,20 @@ public class CurrencyDaoTest
     }
 
     @Test
-    public void When_GettingCurrencyId2_Then_CurrencyId2IsRetrieved()
+    public void When_GettingCurrencyId2_Then_CurrencyId2IsReturned()
             throws SQLException
     {
-        final Dao<Currency> currencyDao = new CurrencyDao(database);
-
         final Optional<Currency> currencyOptional = currencyDao.get(2);
         final Currency currency = currencyOptional.get();
 
         Assertions.assertEquals("SEK", currency.getName());
+    }
+
+    @Test
+    public void When_GettingAll_Then_ThreeRecordsAreReturned()
+            throws SQLException
+    {
+        final List<Currency> currencies = currencyDao.getAll();
+        Assertions.assertEquals(3, currencies.size());
     }
 }

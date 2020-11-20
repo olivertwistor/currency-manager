@@ -36,9 +36,11 @@ public interface Dao<T>
      *
      * @return List of all objects.
      *
+     * @throws SQLException if there was some kind of SQL error
+     *
      * @since 0.1.0
      */
-    List<T> getAll();
+    List<T> getAll() throws SQLException;
 
     /**
      * Saves an object to the database. If it doesn't exist, a new record in

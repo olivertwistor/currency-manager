@@ -47,6 +47,10 @@ public class Database
         // First, check whether the database file exist. If not, throw an
         // exception.
         final URL resource = this.getClass().getResource(path);
+        if (resource == null)
+        {
+            throw new FileNotFoundException(path + " does not exist.");
+        }
         final File file = Paths.get(resource.toURI()).toFile();
         final String fileAbsPath = file.getAbsolutePath();
         if (!file.isFile())
