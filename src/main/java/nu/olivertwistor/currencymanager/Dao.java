@@ -52,9 +52,11 @@ public interface Dao<T>
      *
      * @param t the object to save
      *
+     * @throws SQLException if there was some kind of SQL error
+     *
      * @since 0.1.0
      */
-    void save(T t);
+    void save(T t) throws SQLException;
 
     /**
      * Deletes an object from the database. The implementing class must define

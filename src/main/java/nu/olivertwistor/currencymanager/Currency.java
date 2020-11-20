@@ -38,7 +38,19 @@ public class Currency
     }
 
     /**
-     * Sets the database ID.
+     * Gets the row ID of this object in the database.
+     *
+     * @return Row ID.
+     *
+     * @since 0.1.0
+     */
+    public int getId()
+    {
+        return this.id;
+    }
+
+    /**
+     * Sets the row ID of this object in the database.
      *
      * @param id row ID
      *

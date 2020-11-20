@@ -72,4 +72,29 @@ public class CurrencyDaoTest
         final List<Currency> currencies = currencyDao.getAll();
         Assertions.assertEquals(3, currencies.size());
     }
+
+    @Test
+    public void When_ExistingCurrencyIsSaved_Then_ItGetsUpdatedInDatabase()
+            throws SQLException
+    {
+        final Currency currency = new Currency(1, "DKK");
+        currencyDao.save(currency);
+
+        // Let's retrieve the currency with ID 1. Its name should be "DKK" and
+        // not "USD" as it was originally.
+        final Optional<Currency> dbCurrency = currencyDao.get(1);
+        Assertions.assertEquals("DKK", dbCurrency.get().getName());
+    }
+
+    @Test
+    public void When_NewCurrencyIsSaved_Then_ItGetsInsertedInDatabase()
+            throws SQLException
+    {
+        final Currency currency = new Currency(4, "BTC");
+        currencyDao.save(currency);
+
+        // Let's retrieve the currency with ID 4. It should exist.
+        final Optional<Currency> dbCurrency = currencyDao.get(4);
+        Assertions.assertNotEquals(Optional.empty(), dbCurrency);
+    }
 }

@@ -44,10 +44,11 @@ public class CurrencyDao implements Dao<Currency>
     {
         log.debug("Trying to get currency object with id {0}.", id);
 
-        final String sql = "SELECT id, name FROM currency WHERE id = ?";
-
         try (final Connection connection = this.database.getConnection())
         {
+            final String sql = "SELECT id, name FROM main.currency " +
+                    "WHERE id = ?";
+
             try (final PreparedStatement statement =
                          connection.prepareStatement(sql))
             {
@@ -82,10 +83,10 @@ public class CurrencyDao implements Dao<Currency>
 
         final List<Currency> currencies = new ArrayList<>();
 
-        final String sql = "SELECT id, name FROM currency";
-
         try (final Connection connection = this.database.getConnection())
         {
+            final String sql = "SELECT id, name FROM main.currency";
+
             try (final Statement statement = connection.createStatement())
             {
                 try (final ResultSet resultSet = statement.executeQuery(sql))
@@ -112,9 +113,75 @@ public class CurrencyDao implements Dao<Currency>
     }
 
     @Override
-    public void save(final Currency currency)
+    public void save(final Currency currency) throws SQLException
     {
-        throw new UnsupportedOperationException("not implemented");
+        log.debug("Trying to save {0}.", currency);
+
+        try (final Connection connection = this.database.getConnection())
+        {
+            final boolean alreadyExists;
+
+            // To determine whether we should INSERT or UPDATE, we must first
+            // determine whether the object to save already exists in the
+            // database.
+            final String existsSql =
+                    "SELECT id FROM main.currency WHERE id = ?";
+
+            try (final PreparedStatement statement =
+                         connection.prepareStatement(existsSql))
+            {
+                statement.setInt(1, currency.getId());
+
+                try (final ResultSet resultSet = statement.executeQuery())
+                {
+                    alreadyExists = !resultSet.isClosed() && resultSet.next();
+
+                    if (alreadyExists)
+                    {
+                        log.debug("{0} already exists in the database.",
+                                currency);
+                    }
+                    else
+                    {
+                        log.debug("{0} doesn't exist in the database.",
+                                currency);
+                    }
+                }
+            }
+
+            // Depending on alreadyExists, write the SQL as an UPDATE or an
+            // INSERT.
+            if (alreadyExists)
+            {
+                final String updateSql =
+                        "UPDATE main.currency SET name = ? WHERE id = ?";
+
+                try (final PreparedStatement statement =
+                             connection.prepareStatement(updateSql))
+                {
+                    statement.setString(1, currency.getName());
+                    statement.setInt(2, currency.getId());
+                    statement.execute();
+
+                    log.info("Updated {0} in the database.", currency);
+                }
+            }
+            else
+            {
+                final String insertSql =
+                        "INSERT INTO main.currency (id, name) VALUES (?, ?)";
+
+                try (final PreparedStatement statement =
+                             connection.prepareStatement(insertSql))
+                {
+                    statement.setInt(1, currency.getId());
+                    statement.setString(2, currency.getName());
+                    statement.execute();
+
+                    log.info("Inserted {0} in the database.", currency);
+                }
+            }
+        }
     }
 
     @Override
