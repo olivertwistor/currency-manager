@@ -46,8 +46,7 @@ public class CurrencyDao implements Dao<Currency>
 
         try (final Connection connection = this.database.getConnection())
         {
-            final String sql = "SELECT id, name FROM main.currency " +
-                    "WHERE id = ?";
+            final String sql = "SELECT id, name FROM currency WHERE id = ?";
 
             try (final PreparedStatement statement =
                          connection.prepareStatement(sql))
@@ -85,7 +84,7 @@ public class CurrencyDao implements Dao<Currency>
 
         try (final Connection connection = this.database.getConnection())
         {
-            final String sql = "SELECT id, name FROM main.currency";
+            final String sql = "SELECT id, name FROM currency";
 
             try (final Statement statement = connection.createStatement())
             {
@@ -124,8 +123,7 @@ public class CurrencyDao implements Dao<Currency>
             // To determine whether we should INSERT or UPDATE, we must first
             // determine whether the object to save already exists in the
             // database.
-            final String existsSql =
-                    "SELECT id FROM main.currency WHERE id = ?";
+            final String existsSql = "SELECT id FROM currency WHERE id = ?";
 
             try (final PreparedStatement statement =
                          connection.prepareStatement(existsSql))
@@ -154,7 +152,7 @@ public class CurrencyDao implements Dao<Currency>
             if (alreadyExists)
             {
                 final String updateSql =
-                        "UPDATE main.currency SET name = ? WHERE id = ?";
+                        "UPDATE currency SET name = ? WHERE id = ?";
 
                 try (final PreparedStatement statement =
                              connection.prepareStatement(updateSql))
