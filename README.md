@@ -10,6 +10,11 @@ total profits and losses after you sell those currencies.
 ## Installation
 You need the following:
 * [Java][1] 8 or later
+* A driver for [SQLite][2]
+
+Now when you have the prerequisites, follow these steps:
+1. Download a [release][3] of this project.
+1. 
 
 ## Usage
 More info will come with the first release.
@@ -20,3 +25,5 @@ license terms in the file [LICENSE](LICENSE).
 
 
 [1]: https://www.java.com/en/download/
+[2]: https://www.sqlite.org
+[3]: https://github.com/olivertwistor/currency-manager/releases
