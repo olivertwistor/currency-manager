@@ -1,6 +1,7 @@
 package nu.olivertwistor.currencymanager;
 
 import java.sql.SQLException;
+import java.sql.SQLTimeoutException;
 import java.util.List;
 import java.util.Optional;
 
@@ -25,22 +26,24 @@ public interface Dao<T>
      *
      * @return The object if it exists, wrapped in an {@link Optional}.
      *
-     * @throws SQLException if there was some kind of SQL error
+     * @throws SQLException        if there was some kind of SQL error
+     * @throws SQLTimeoutException if any of the SQL operation timed out
      *
      * @since 0.1.0
      */
-    Optional<T> get(int id) throws SQLException;
+    Optional<T> get(int id) throws SQLException, SQLTimeoutException;
 
     /**
      * Gets a list of all objects of this type in the database.
      *
      * @return List of all objects.
      *
-     * @throws SQLException if there was some kind of SQL error
+     * @throws SQLException        if there was some kind of SQL error
+     * @throws SQLTimeoutException if any of the SQL operation timed out
      *
      * @since 0.1.0
      */
-    List<T> getAll() throws SQLException;
+    List<T> getAll() throws SQLException, SQLTimeoutException;
 
     /**
      * Saves an object to the database. If it doesn't exist, a new record in
@@ -52,11 +55,12 @@ public interface Dao<T>
      *
      * @param t the object to save
      *
-     * @throws SQLException if there was some kind of SQL error
+     * @throws SQLException        if there was some kind of SQL error
+     * @throws SQLTimeoutException if any of the SQL operation timed out
      *
      * @since 0.1.0
      */
-    void save(T t) throws SQLException;
+    void save(T t) throws SQLException, SQLTimeoutException;
 
     /**
      * Deletes an object from the database. The implementing class must define
@@ -64,7 +68,10 @@ public interface Dao<T>
      *
      * @param t the object to delete
      *
+     * @throws SQLException        if there was some kind of SQL error
+     * @throws SQLTimeoutException if any of the SQL operation timed out
+     *
      * @since 0.1.0
      */
-    void delete(T t);
+    void delete(T t) throws SQLException, SQLTimeoutException;
 }

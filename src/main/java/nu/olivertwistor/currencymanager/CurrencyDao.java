@@ -63,12 +63,11 @@ public class CurrencyDao implements Dao<Currency>
                         currency.setId(resultSet.getInt("id"));
                         currency.setName(resultSet.getString("name"));
 
-                        log.debug("Found currency: {0}", currency);
+                        log.debug("Found {0}", currency);
                         return Optional.of(currency);
                     }
 
-                    log.warn("Didn't find any currency objects with id {0}.",
-                            id);
+                    log.warn("Didn't find any currency with id {0}.", id);
                     return Optional.empty();
                 }
             }

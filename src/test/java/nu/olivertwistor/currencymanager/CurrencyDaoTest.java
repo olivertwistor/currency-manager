@@ -13,11 +13,25 @@ import java.sql.Statement;
 import java.util.List;
 import java.util.Optional;
 
-public class CurrencyDaoTest
+/**
+ * Unit tests for the {@link CurrencyDao} class.
+ *
+ * @author Johan Nilsson
+ * @since  0.1.0
+ */
+final class CurrencyDaoTest
 {
     private static Database database;
     private static Dao<Currency> currencyDao;
 
+    /**
+     * Initializes the database by first removing all rows in the currency table and reinserting three new ones.
+     *
+     * @throws FileNotFoundException if the specified database couldn't be
+     *                               found
+     * @throws SQLException          if there was some kind of SQL error
+     * @throws URISyntaxException    if the path to the database is invalid
+     */
     @SuppressWarnings("SqlWithoutWhere")
     @BeforeAll
     static void initDatabase()
@@ -56,8 +70,7 @@ public class CurrencyDaoTest
     }
 
     @Test
-    public void When_GettingCurrencyId2_Then_CurrencyId2IsReturned()
-            throws SQLException
+    void When_GettingCurrencyId2_Then_CurrencyId2IsReturned() throws Exception
     {
         final Optional<Currency> currencyOptional = currencyDao.get(2);
         final Currency currency = currencyOptional.get();
@@ -87,8 +100,8 @@ public class CurrencyDaoTest
     }
 
     @Test
-    public void When_NewCurrencyIsSaved_Then_ItGetsInsertedInDatabase()
-            throws SQLException
+    void When_NewCurrencyIsSaved_Then_ItGetsInsertedInDatabase()
+            throws Exception
     {
         final Currency currency = new Currency(4, "BTC");
         currencyDao.save(currency);
