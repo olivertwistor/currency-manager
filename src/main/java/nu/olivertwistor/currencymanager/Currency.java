@@ -4,7 +4,6 @@ package nu.olivertwistor.currencymanager;
  * This class describes a currency, for example SEK or USD. Can also be a
  * crypto currency, such as BTC or LTC.
  *
- * @author Johan Nilsson
  * @since  0.1.0
  */
 public class Currency

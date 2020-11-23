@@ -17,7 +17,6 @@ import java.sql.SQLException;
  * certain database file. It also provides convenience methods for various
  * methods further down the stack from SQLiteDatabase.
  *
- * @author Johan Nilsson
  * @since  0.1.0
  */
 public class Database
@@ -64,13 +63,6 @@ public class Database
         log.info("Loaded database {0}", fileAbsPath);
     }
 
-    /**
-     * Gets the data source object.
-     *
-     * @return SQLiteDataSource
-     *
-     * @since 0.1.0
-     */
     public SQLiteDataSource getDataSource()
     {
         return this.dataSource;

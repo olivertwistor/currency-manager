@@ -8,7 +8,6 @@ import java.io.FileNotFoundException;
 /**
  * Unit tests for the {@link Database} class.
  *
- * @author Johan Nilsson
  * @since  0.1.0
  */
 final class DatabaseTest

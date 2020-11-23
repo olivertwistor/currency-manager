@@ -1,7 +1,7 @@
 # Contributing to this project
-I'm happy that you are interested in contributing to this project. The open 
-source community depends on people like you, and together we can make this 
-project as good as it can possibly be. Thank you!
+I'm happy you are interested in contributing to this project. The open source 
+community depends on people like you, and together we can make this project as 
+good as it can be. Thank you!
 
 ## Table of contents
 * [Code of conduct](#code-of-conduct)
@@ -32,9 +32,9 @@ help out with. For information on the necessary steps for that, please read the
 section *[How to make changes to the project][4]*.
 
 ### Report bugs, propose new features or changes in existing features
-All software has bugs and I would very much appreciate help with identifying and
-reporting bugs, so they can be fixed. This is a good way to contribute even if
-you aren't a programmer yourself.
+All software has bugs, and I would very much appreciate help with identifying 
+and reporting bugs, so they can be fixed. This is a good way to contribute 
+even if you aren't a programmer yourself.
 
 #### How to create a new issue
 1. Go to the [new issue][2] page.
@@ -52,7 +52,7 @@ you aren't a programmer yourself.
         * for other things not listed here, leave the *labels* blank or create
         new labels as appropriate
     1. Leave *Project* blank.
-    1. Also leave *Milestone* blank.
+    1. Leave *Milestone* blank.
 1. Press the button *Submit new issue*.
 
 ## How to make changes to the project
