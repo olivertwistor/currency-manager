@@ -6,18 +6,23 @@ create table if not exists currency
 
 create table if not exists exchange_rate
 (
-    date            integer not null,
+    date            text    not null,
     base_currency   integer not null,
     target_currency integer not null,
-    exchange_rate   real not null,
+    rate            real    not null,
 
-    primary key (date, base_currency, target_currency)
+    primary key (date, base_currency, target_currency),
+
+    foreign key (base_currency) references currency(id)
+        on delete cascade on update cascade,
+    foreign key (target_currency) references currency(id)
+        on delete cascade on update cascade
 );
 
 create table if not exists trade
 (
     id          integer primary key,
-    date        integer not null,
+    date        text    not null,
     currency    integer not null ,
     amount      real    not null ,
     price       real    not null,
