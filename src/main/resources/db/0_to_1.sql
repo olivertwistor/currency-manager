@@ -1,3 +1,12 @@
+create table if not exists db_version
+(
+    version integer not null,
+    date    text    not null,
+
+    primary key (version)
+);
+create index idx_date on db_version(date);
+
 create table if not exists currency
 (
     id      integer primary key,
