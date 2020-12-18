@@ -7,9 +7,11 @@ import org.junit.jupiter.api.Test;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.InputStream;
+import java.net.URISyntaxException;
 import java.net.URL;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.sql.SQLException;
 
 /**
  * Unit tests for the {@link Database} class.
@@ -21,7 +23,7 @@ final class DatabaseTest
     private static Database existing_db;
 
     @BeforeAll
-    static void setUp() throws Exception
+    static void setUp() throws URISyntaxException, FileNotFoundException
     {
         final URL existingDbResource =
                 DatabaseTest.class.getResource("/test.sqlite3");
@@ -41,13 +43,14 @@ final class DatabaseTest
      */
     @Test
     void When_ConnectingToExistingDatabase_Then_NoExceptionIsThrown()
-            throws Exception
+            throws FileNotFoundException
+
     {
         new Database("test.sqlite3");
     }
 
     @Test
-    void When_ReadingDbVersion_Then_CorrectVersionIsFound() throws Exception
+    void When_ReadingDbVersion_Then_CorrectVersionIsFound() throws SQLException
     {
         final int expectedVersion = 99;
         final String expectedDate = "2099-12-31";
