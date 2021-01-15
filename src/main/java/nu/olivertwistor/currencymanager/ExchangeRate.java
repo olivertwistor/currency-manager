@@ -1,7 +1,6 @@
 package nu.olivertwistor.currencymanager;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+import org.jetbrains.annotations.NonNls;
 
 import java.time.LocalDate;
 
@@ -11,10 +10,8 @@ import java.time.LocalDate;
  *
  * @since  0.1.0
  */
-public class ExchangeRate
+final class ExchangeRate
 {
-    private static final Logger log = LogManager.getLogger(ExchangeRate.class);
-
     private final LocalDate date;
     private final Currency baseCurrency;
     private final Currency targetCurrency;
@@ -41,10 +38,10 @@ public class ExchangeRate
      *
      * @since 0.1.0
      */
-    public ExchangeRate(final LocalDate date,
-                        final Currency baseCurrency,
-                        final Currency targetCurrency,
-                        final double rate)
+    ExchangeRate(final LocalDate date,
+                 final Currency baseCurrency,
+                 final Currency targetCurrency,
+                 final double rate)
     {
         this.date = date;
         this.baseCurrency = baseCurrency;
@@ -73,13 +70,13 @@ public class ExchangeRate
     }
 
     @Override
-    public String toString()
+    public @NonNls String toString()
     {
         return "ExchangeRate{" +
                 "date=" + this.date + ", " +
                 "baseCurrency=" + this.baseCurrency + ", " +
                 "targetCurrency=" + this.targetCurrency + ", " +
                 "rate=" + this.rate +
-                "}";
+                '}';
     }
 }

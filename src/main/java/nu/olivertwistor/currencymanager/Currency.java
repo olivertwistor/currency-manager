@@ -1,12 +1,15 @@
 package nu.olivertwistor.currencymanager;
 
+import org.jetbrains.annotations.NonNls;
+
 /**
  * This class describes a currency, for example SEK or USD. Can also be a
  * crypto currency, such as BTC or LTC.
  *
  * @since  0.1.0
  */
-public class Currency
+@SuppressWarnings("ClassWithoutLogger")
+public final class Currency
 {
     private final int id;
     private final String name;
@@ -51,8 +54,8 @@ public class Currency
     }
 
     @Override
-    public String toString()
+    public @NonNls String toString()
     {
-        return "Currency{id=" + this.id + ", name='" + this.name + "}";
+        return "Currency{id=" + this.id + ", name='" + this.name + '}';
     }
 }
