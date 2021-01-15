@@ -1,5 +1,8 @@
 package nu.olivertwistor.currencymanager.menus;
 
+import java.io.IOException;
+import java.util.Map;
+
 /**
  * This interface declares the three behaviours common for all menus in this
  * application: define, show, and act. The menu is {@link #define() defined} by
@@ -13,13 +16,17 @@ package nu.olivertwistor.currencymanager.menus;
 public interface Menu
 {
     /**
-     * Defines the menu items, for example using a {@link java.util.Map} of
-     * integers as keys (to work well with {@link #show(boolean)}) and string
-     * values for menu item descriptions.
+     * Defines the menu items and returns them as a Map of integers as keys
+     * that the user can select and strings as values describing the menu items.
+     *
+     * E.g. `Map.Entry&lt;Integer, String&gt(2, "Add new currency")` for
+     * showing something like `2. Add new currency`.
+     *
+     * @return A map of all menu items in this menu.
      *
      * @since 0.1.0
      */
-    void define();
+    Map<Integer, String> define();
 
     /**
      * Performs an action depending on which menu item that was selected.
@@ -44,7 +51,9 @@ public interface Menu
      *
      * @return The selected menu item as an integer.
      *
+     * @throws IOException if user input couldn't be read
+     *
      * @since 0.1.0
      */
-    int show(boolean allowInvalid);
+    int show(boolean allowInvalid) throws IOException;
 }

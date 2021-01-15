@@ -1,5 +1,6 @@
 package nu.olivertwistor.currencymanager;
 
+import org.jetbrains.annotations.NonNls;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
@@ -12,6 +13,14 @@ import java.io.FileNotFoundException;
  */
 final class DatabaseTest
 {
+    @SuppressWarnings("HardcodedFileSeparator")
+    @NonNls
+    private static final String TEST_SQLITE_3 = "/test.sqlite3";
+
+    @SuppressWarnings("HardcodedFileSeparator")
+    @NonNls
+    private static final String NO_DB = "/no_db";
+
     /**
      * Asserts that when connecting to an existing database, no exception is
      * thrown.
@@ -24,7 +33,7 @@ final class DatabaseTest
     void When_ConnectingToExistingDatabase_Then_NoExceptionIsThrown()
             throws Exception
     {
-        new Database("/test.sqlite3");
+        new Database(DatabaseTest.TEST_SQLITE_3);
     }
 
     /**
@@ -37,6 +46,6 @@ final class DatabaseTest
     void When_ConnectingToNonExistingDatabase_Then_ExceptionIsThrown()
     {
         Assertions.assertThrows(FileNotFoundException.class,
-                () -> new Database("/no_db"));
+                () -> new Database(DatabaseTest.NO_DB));
     }
 }
