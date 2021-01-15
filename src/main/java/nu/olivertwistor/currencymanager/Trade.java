@@ -1,5 +1,7 @@
 package nu.olivertwistor.currencymanager;
 
+import org.jetbrains.annotations.NonNls;
+
 import java.time.LocalDate;
 
 /**
@@ -10,7 +12,7 @@ import java.time.LocalDate;
  *
  * @since 0.1.0
  */
-public class Trade
+final class Trade
 {
     private final int id;
     private final LocalDate date;
@@ -31,11 +33,11 @@ public class Trade
      *
      * @since 0.1.0
      */
-    public Trade(final LocalDate date,
-                 final Currency currency,
-                 final double amount,
-                 final double price,
-                 final double fee)
+    Trade(final LocalDate date,
+          final Currency currency,
+          final double amount,
+          final double price,
+          final double fee)
     {
         this(0, date, currency, amount, price, fee);
     }
@@ -100,7 +102,7 @@ public class Trade
     }
 
     @Override
-    public String toString()
+    public @NonNls String toString()
     {
         return "Trade{" +
                 "id=" + this.id + ", " +
@@ -109,6 +111,6 @@ public class Trade
                 "amount=" + this.amount + ", " +
                 "price=" + this.price + ", " +
                 "fee=" + this.fee +
-                "}";
+                '}';
     }
 }

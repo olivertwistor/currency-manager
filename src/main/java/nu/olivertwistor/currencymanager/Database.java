@@ -11,6 +11,7 @@ import java.net.URL;
 import java.nio.file.Paths;
 import java.sql.Connection;
 import java.sql.SQLException;
+import java.util.Objects;
 
 /**
  * This class provides access to a {@link SQLiteDataSource} loaded with a
@@ -19,11 +20,12 @@ import java.sql.SQLException;
  *
  * @since  0.1.0
  */
-public class Database
+@SuppressWarnings({"StringConcatenation", "HardCodedStringLiteral"})
+final class Database
 {
-    private static final Logger log = LogManager.getLogger(Database.class);
+    private static final Logger LOG = LogManager.getLogger(Database.class);
 
-    private static final String jdbc_db_url_prefix = "jdbc:sqlite:";
+    private static final String JDBC_DB_URL_PREFIX = "jdbc:sqlite:"; //NON-NLS
 
     private final SQLiteDataSource dataSource;
 
@@ -40,16 +42,13 @@ public class Database
      *
      * @since 0.1.0
      */
-    public Database(final String path)
+    Database(final String path)
             throws FileNotFoundException, URISyntaxException
     {
         // First, check whether the database file exist. If not, throw an
         // exception.
         final URL resource = this.getClass().getResource(path);
-        if (resource == null)
-        {
-            throw new FileNotFoundException(path + " does not exist.");
-        }
+        Objects.requireNonNull(resource, () -> path + " does not exist.");
         final File file = Paths.get(resource.toURI()).toFile();
         final String fileAbsPath = file.getAbsolutePath();
         if (!file.isFile())
@@ -58,9 +57,9 @@ public class Database
         }
 
         this.dataSource = new SQLiteDataSource();
-        this.dataSource.setUrl(jdbc_db_url_prefix + fileAbsPath);
+        this.dataSource.setUrl(Database.JDBC_DB_URL_PREFIX + fileAbsPath);
 
-        log.info("Loaded database {0}", fileAbsPath);
+        Database.LOG.info("Loaded database {}", fileAbsPath);
     }
 
     public SQLiteDataSource getDataSource()
@@ -77,6 +76,7 @@ public class Database
      *
      * @since 0.1.0
      */
+    @SuppressWarnings("PublicMethodWithoutLogging")
     public Connection getConnection() throws SQLException
     {
         return this.dataSource.getConnection();
@@ -85,6 +85,6 @@ public class Database
     @Override
     public String toString()
     {
-        return "Database{dataSource=" + this.dataSource + "}";
+        return "Database{dataSource=" + this.dataSource + '}';
     }
 }
