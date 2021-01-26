@@ -1,38 +1,52 @@
 package nu.olivertwistor.currencymanager;
 
-import nu.olivertwistor.currencymanager.menus.MainMenu;
-import nu.olivertwistor.currencymanager.menus.Menu;
+import nu.olivertwistor.currencymanager.mainwindow.MainWindow;
+import nu.olivertwistor.currencymanager.util.AppConfig;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+import org.jetbrains.annotations.NonNls;
 
+import java.awt.Component;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 
 /**
- * Main class for the Currency Manager application. Handles starting the app.
+ * Main entry point for this application.
  *
  * @since 0.1.0
  */
-@SuppressWarnings({"UtilityClassCanBeEnum", "ClassWithoutLogger", "ClassOnlyUsedInOnePackage", "ClassUnconnectedToPackage"})
-final class App
+@SuppressWarnings("HardCodedStringLiteral")
+public final class App
 {
+    private static final @NonNls Logger LOG = LogManager.getLogger(App.class);
+
     /**
-     * Starts the main menu and loops it until the user chooses to exit the
-     * application.
+     * Creates config objects and starts the main program window.
      *
      * @param args not used
      *
-     * @throws IOException if user input failed to be read
-     *
      * @since 0.1.0
      */
-    @SuppressWarnings({"MethodCanBeVariableArityMethod", "PublicMethodWithoutLogging"})
-    public static void main(final String[] args) throws IOException
+    public static void main(final String[] args)
     {
-        final Menu mainMenu = new MainMenu();
-
-        boolean exit = false;
-        while (!exit)
+        final AppConfig appConfig;
+        try
         {
-            final int choice = mainMenu.show(false);
-            exit = mainMenu.act(choice);
+            appConfig = new AppConfig("/app.properties");
         }
+        catch (final FileNotFoundException e)
+        {
+            LOG.fatal("Failed to find app config file.", e);
+            return;
+        }
+        catch (final IOException e)
+        {
+            LOG.fatal("Failed to create app config object.", e);
+            return;
+        }
+
+        final Component mainWindow = new MainWindow(
+                "Currency Manager", appConfig.getWindowSize());
+        mainWindow.setVisible(true);
     }
 }
