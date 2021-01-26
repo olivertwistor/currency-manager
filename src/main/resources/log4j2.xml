@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<Configuration status="warn">
+    <Appenders>
+        <Console name="LogToConsole" target="SYSTEM_OUT">
+            <PatternLayout pattern="%d{HH:mm:ss} %-5level %c - %m%n"/>
+        </Console>
+        <RollingRandomAccessFile name="LogToRollingRandomAccessFile"
+                                 fileName="logs/app.log"
+                                 filePattern="logs/app-%d{yyyy-MM-dd}.log.gz">
+            <PatternLayout>
+                <Pattern>
+                    %d{yyyy-MM-dd HH:mm:ss} %-5p %c - %m%n
+                </Pattern>
+            </PatternLayout>
+            <Policies>
+                <TimeBasedTriggeringPolicy interval="1"/>
+            </Policies>
+            <DefaultRolloverStrategy max="10"/>
+        </RollingRandomAccessFile>
+    </Appenders>
+    <Loggers>
+        <!-- avoid duplicated logs with additivity=false -->
+        <Logger name="nu.olivertwistor.currencymanager"
+                level="debug"
+                additivity="false">
+            <AppenderRef ref="LogToRollingRandomAccessFile"/>
+            <AppenderRef ref="LogToConsole"/>
+        </Logger>
+        <Root level="error">
+            <AppenderRef ref="LogToRollingRandomAccessFile"/>
+        </Root>
+    </Loggers>
+</Configuration>
