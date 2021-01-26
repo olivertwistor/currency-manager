@@ -1,11 +1,11 @@
 package nu.olivertwistor.currencymanager;
 
+import nu.olivertwistor.currencymanager.mainwindow.MainWindow;
 import nu.olivertwistor.currencymanager.util.AppConfig;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.jetbrains.annotations.NonNls;
 
-import javax.swing.JFrame;
 import java.awt.Component;
 import java.io.FileNotFoundException;
 import java.io.IOException;

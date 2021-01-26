@@ -23,9 +23,14 @@ public final class AppConfig
     private final Properties properties;
 
     /**
-     * Loads the application config file from resources.
+     * Loads an application config file from resources.
      *
-     * @throws IOException if loading or parsing the config file failed.
+     * @param filename path to the config file to load
+     *
+     * @throws FileNotFoundException if the specified config file couldn't be
+     *                               found.
+     * @throws IOException           if loading or parsing the config file
+     *                               failed.
      *
      * @since 0.1.0
      */
