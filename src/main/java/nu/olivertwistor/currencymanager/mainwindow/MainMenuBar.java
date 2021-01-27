@@ -1,5 +1,9 @@
 package nu.olivertwistor.currencymanager.mainwindow;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+import org.jetbrains.annotations.NonNls;
+
 import javax.swing.Action;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
@@ -13,6 +17,9 @@ import javax.swing.JMenuItem;
 @SuppressWarnings("HardCodedStringLiteral")
 final class MainMenuBar extends JMenuBar
 {
+    @NonNls
+    private static final Logger LOG = LogManager.getLogger(MainMenuBar.class);
+
     private static final long serialVersionUID = -1912239627491741740L;
 
     /**
@@ -35,5 +42,7 @@ final class MainMenuBar extends JMenuBar
         this.add(fileMenu);
         this.add(editMenu);
         this.add(helpMenu);
+
+        LOG.debug("Created the main menu bar.");
     }
 }

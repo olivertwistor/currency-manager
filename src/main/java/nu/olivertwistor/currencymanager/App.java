@@ -18,7 +18,8 @@ import java.io.IOException;
 @SuppressWarnings("HardCodedStringLiteral")
 public final class App
 {
-    private static final @NonNls Logger LOG = LogManager.getLogger(App.class);
+    @NonNls
+    private static final Logger LOG = LogManager.getLogger(App.class);
 
     /**
      * Creates config objects and starts the main program window.

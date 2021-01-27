@@ -17,8 +17,8 @@ import java.util.Properties;
  */
 public final class AppConfig
 {
-    private static final @NonNls Logger LOG = LogManager.getLogger(
-            AppConfig.class);
+    @NonNls
+    private static final Logger LOG = LogManager.getLogger(AppConfig.class);
 
     private final Properties properties;
 
