@@ -37,7 +37,7 @@ public class Portfolio implements Dao<Portfolio>
      *
      * @since 0.1.0
      */
-    public Portfolio(final String name, final int baseCurrency)
+    Portfolio(final String name, final int baseCurrency)
     {
         this.name = name;
         this.baseCurrency = baseCurrency;
@@ -51,7 +51,7 @@ public class Portfolio implements Dao<Portfolio>
      *
      * @since 0.1.0
      */
-    public Portfolio(final String name, final Currency baseCurrency)
+    Portfolio(final String name, final Currency baseCurrency)
     {
         this(name, baseCurrency.getId());
     }
@@ -262,7 +262,7 @@ public class Portfolio implements Dao<Portfolio>
         return this.baseCurrency;
     }
 
-    public void setBaseCurrency(final int baseCurrency)
+    void setBaseCurrency(final int baseCurrency)
     {
         this.baseCurrency = baseCurrency;
     }

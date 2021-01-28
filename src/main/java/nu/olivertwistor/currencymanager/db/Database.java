@@ -23,7 +23,6 @@ class Database
     @NonNls
     private static final Logger LOG = LogManager.getLogger(Database.class);
 
-    @SuppressWarnings("unused")
     @NonNls
     private static final String JDBC_SQLITE_PREFIX = "jdbc:sqlite:";
 
@@ -68,7 +67,7 @@ class Database
      *
      * @since 0.1.0
      */
-    public int readCurrentDbVersion() throws SQLException
+    int readCurrentDbVersion() throws SQLException
     {
         // First, we must determine whether the version table exists at
         // all. If it doesn't, we're dealing with a brand new database,
@@ -76,6 +75,7 @@ class Database
         try (final Statement statement =
                      this.getConnection().createStatement())
         {
+            @NonNls
             final String sql = "SELECT name FROM sqlite_master WHERE " +
                     "type='table' AND name='db_version'";
 
@@ -93,6 +93,7 @@ class Database
         try (final Statement statement =
                      this.getConnection().createStatement())
         {
+            @NonNls
             final String sql = "SELECT version FROM db_version ORDER BY " +
                     "date, version DESC LIMIT 1";
 
@@ -100,7 +101,9 @@ class Database
             {
                 if (resultSet.next())
                 {
+                    @NonNls
                     final int version = resultSet.getInt("version");
+
                     return version;
                 }
 
