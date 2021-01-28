@@ -29,6 +29,33 @@ public class Portfolio implements Dao<Portfolio>
     private String name;
     private int baseCurrency;
 
+    /**
+     * Creates a portfolio with a name and a base currency.
+     *
+     * @param name         description of this portfolio
+     * @param baseCurrency ID of the {@link Currency} to use as a base
+     *
+     * @since 0.1.0
+     */
+    public Portfolio(final String name, final int baseCurrency)
+    {
+        this.name = name;
+        this.baseCurrency = baseCurrency;
+    }
+
+    /**
+     * Creates a portfolio with a name and a base currency.
+     *
+     * @param name         description of this portfolio
+     * @param baseCurrency the {@link Currency} to use as a base
+     *
+     * @since 0.1.0
+     */
+    public Portfolio(final String name, final Currency baseCurrency)
+    {
+        this(name, baseCurrency.getId());
+    }
+
     @Override
     public int save(final Database database) throws SQLException
     {
@@ -101,9 +128,9 @@ public class Portfolio implements Dao<Portfolio>
                     @NonNls
                     final int baseCurrency = resultSet.getInt("base_currency");
 
-                    final Portfolio portfolio = new Portfolio();
-                    portfolio.name = name;
-                    portfolio.baseCurrency = baseCurrency;
+                    final Portfolio portfolio =
+                            new Portfolio(name, baseCurrency);
+                    portfolio.id = id;
 
                     LOG.info("Read {} from the database.", portfolio);
                     return portfolio;
@@ -132,14 +159,17 @@ public class Portfolio implements Dao<Portfolio>
                 while (resultSet.next())
                 {
                     @NonNls
+                    final int id = resultSet.getInt("id");
+
+                    @NonNls
                     final String name = resultSet.getString("name");
 
                     @NonNls
                     final int baseCurrency = resultSet.getInt("base_currency");
 
-                    final Portfolio portfolio = new Portfolio();
-                    portfolio.name = name;
-                    portfolio.baseCurrency = baseCurrency;
+                    final Portfolio portfolio =
+                            new Portfolio(name, baseCurrency);
+                    portfolio.id = id;
 
                     portfolios.add(portfolio);
                     LOG.debug("Read {} from the database.", portfolio);

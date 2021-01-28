@@ -13,8 +13,8 @@ import java.util.List;
 import java.util.NoSuchElementException;
 
 /**
- * This class describes a currency with a name and a ticker (short name, for
- * example EUR for euro, and USD for US dollar).
+ * This class describes a currency with a ticker (short name, for example "EUR"
+ * for euro, and "USD" for US dollar) and an optional description or name.
  *
  * @since 0.1.0
  */
@@ -25,8 +25,35 @@ public class Currency implements Dao<Currency>
     private static final Logger LOG = LogManager.getLogger(Currency.class);
 
     private int id;
-    private String name;
     private String ticker;
+    private String description;
+
+    /**
+     * Creates a currency with a ticker and a description.
+     *
+     * @param ticker      short name, for example "EUR" for euro
+     * @param description description of the currency, for example "Euro" for
+     *                    EUR
+     *
+     * @since 0.1.0
+     */
+    public Currency(final String ticker, final String description)
+    {
+        this.ticker = ticker;
+        this.description = description;
+    }
+
+    /**
+     * Creates a currency with a ticker, but without description.
+     *
+     * @param ticker short name, for example "EUR" for euro
+     *
+     * @since 0.1.0
+     */
+    public Currency(final String ticker)
+    {
+        this(ticker, "");
+    }
 
     @Override
     public int save(final Database database) throws SQLException
@@ -36,14 +63,14 @@ public class Currency implements Dao<Currency>
         if (this.id > 0)
         {
             @NonNls
-            final String sql =
-                    "UPDATE currency SET name = ?, ticker = ? WHERE id = ?;";
+            final String sql = "UPDATE currency SET ticker = ?, " +
+                    "description = ? WHERE id = ?;";
 
             try (final PreparedStatement statement =
                          database.getConnection().prepareStatement(sql))
             {
-                statement.setString(1, this.name);
-                statement.setString(2, this.ticker);
+                statement.setString(1, this.ticker);
+                statement.setString(2, this.description);
                 statement.setInt(3, this.id);
 
                 statement.executeUpdate();
@@ -54,21 +81,22 @@ public class Currency implements Dao<Currency>
         {
             @NonNls
             final String sql =
-                    "INSERT INTO currency (name, ticker) VALUES (?, ?);";
+                    "INSERT INTO currency (ticker, description) VALUES (?, ?);";
 
             try (final PreparedStatement statement =
                          database.getConnection().prepareStatement(sql))
             {
-                statement.setString(1, this.name);
-                statement.setString(2, this.ticker);
+                statement.setString(1, this.ticker);
+                statement.setString(2, this.description);
 
                 statement.executeUpdate();
-                LOG.info("Inserted {} in the database.", this);
+                LOG.info("Inserted {} into the database.", this);
 
                 // Get the last inserted row ID into this object.
                 try (final ResultSet resultSet = statement.getGeneratedKeys())
                 {
                     this.id = resultSet.getInt(1);
+                    LOG.debug("Retrieved the row ID: {}", this.id);
                 }
             }
         }
@@ -81,7 +109,8 @@ public class Currency implements Dao<Currency>
             throws SQLException
     {
         @NonNls
-        final String sql = "SELECT name, ticker FROM currency WHERE id = ?;";
+        final String sql =
+                "SELECT ticker, description FROM currency WHERE id = ?;";
 
         try (final PreparedStatement statement =
                      database.getConnection().prepareStatement(sql))
@@ -94,14 +123,14 @@ public class Currency implements Dao<Currency>
                 if (hasNext)
                 {
                     @NonNls
-                    final String name = resultSet.getString("name");
-
-                    @NonNls
                     final String ticker = resultSet.getString("ticker");
 
-                    final Currency currency = new Currency();
-                    currency.name = name;
-                    currency.ticker = ticker;
+                    @NonNls
+                    final String description =
+                            resultSet.getString("description");
+
+                    final Currency currency = new Currency(ticker, description);
+                    currency.id = id;
 
                     LOG.info("Read {} from the database.", currency);
                     return currency;
@@ -121,7 +150,7 @@ public class Currency implements Dao<Currency>
                      database.getConnection().createStatement())
         {
             @NonNls
-            final String sql = "SELECT name, ticker FROM currency;";
+            final String sql = "SELECT id, ticker, description FROM currency;";
 
             try (final ResultSet resultSet = statement.executeQuery(sql))
             {
@@ -130,14 +159,17 @@ public class Currency implements Dao<Currency>
                 while (resultSet.next())
                 {
                     @NonNls
-                    final String name = resultSet.getString("name");
+                    final int id = resultSet.getInt("id");
 
                     @NonNls
                     final String ticker = resultSet.getString("ticker");
 
-                    final Currency currency = new Currency();
-                    currency.name = name;
-                    currency.ticker = ticker;
+                    @NonNls
+                    final String description =
+                            resultSet.getString("description");
+
+                    final Currency currency = new Currency(ticker, description);
+                    currency.id = id;
 
                     currencies.add(currency);
                     LOG.debug("Read {} from the database.", currency);
@@ -188,14 +220,14 @@ public class Currency implements Dao<Currency>
         return this.id;
     }
 
-    public String getName()
-    {
-        return this.name;
+            try (final ResultSet resultSet = statement.executeQuery(sql))
+            {
+                @NonNls
     }
 
-    public void setName(final String name)
+    int getId()
     {
-        this.name = name;
+        return this.id;
     }
 
     public String getTicker()
@@ -208,14 +240,24 @@ public class Currency implements Dao<Currency>
         this.ticker = ticker;
     }
 
+    public String getDescription()
+    {
+        return this.description;
+    }
+
+    void setDescription(final String description)
+    {
+        this.description = description;
+    }
+
     @SuppressWarnings("PublicMethodWithoutLogging")
     @Override
     public String toString()
     {
         return "Currency{" +
                 "id=" + this.id +
-                ", name='" + this.name + '\'' +
                 ", ticker='" + this.ticker + '\'' +
+                ", description='" + this.description + '\'' +
                 '}';
     }
 }
