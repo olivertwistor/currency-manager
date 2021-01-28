@@ -212,6 +212,23 @@ public class Portfolio implements Dao<Portfolio>
 
             statement.executeUpdate(sql);
             LOG.info("Deleted all portfolios from the database.");
+    @Override
+    public int count(final Database database) throws SQLException
+    {
+        try (final Statement statement =
+                     database.getConnection().createStatement())
+        {
+            @NonNls
+            final String sql = "SELECT COUNT(id) AS n FROM portfolio;";
+
+            try (final ResultSet resultSet = statement.executeQuery(sql))
+            {
+                @NonNls
+                final int nRows = resultSet.getInt("n");
+
+                LOG.debug("Found {} rows.", nRows);
+                return nRows;
+            }
         }
     }
 

@@ -87,4 +87,17 @@ public interface Dao<T>
      */
     @SuppressWarnings("unused")
     void deleteAll(Database database) throws SQLException;
+
+    /**
+     * Counts the number of records corresponding to this class in the database.
+     *
+     * @param database the database to read from
+     *
+     * @return The numer of records corresponding to this class.
+     *
+     * @throws SQLException if anything went wrong with the database.
+     *
+     * @since 0.1.0
+     */
+    int count(Database database) throws SQLException;
 }

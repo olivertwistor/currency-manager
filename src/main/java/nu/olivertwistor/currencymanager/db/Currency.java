@@ -215,14 +215,24 @@ public class Currency implements Dao<Currency>
         }
     }
 
-    public int getId()
+    @Override
+    public int count(final Database database) throws SQLException
     {
-        return this.id;
-    }
+        try (final Statement statement =
+                     database.getConnection().createStatement())
+        {
+            @NonNls
+            final String sql = "SELECT COUNT(id) AS n FROM currency;";
 
             try (final ResultSet resultSet = statement.executeQuery(sql))
             {
                 @NonNls
+                final int nRows = resultSet.getInt("n");
+
+                LOG.debug("Found {} rows.", nRows);
+                return nRows;
+            }
+        }
     }
 
     int getId()
