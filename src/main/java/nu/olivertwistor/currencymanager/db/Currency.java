@@ -203,7 +203,6 @@ public class Currency implements Dao<Currency>
     @Override
     public void deleteAll(final Database database) throws SQLException
     {
-
         try (final Statement statement =
                      database.getConnection().createStatement())
         {

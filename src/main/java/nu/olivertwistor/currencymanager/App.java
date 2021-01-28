@@ -16,7 +16,7 @@ import java.io.IOException;
  * @since 0.1.0
  */
 @SuppressWarnings("HardCodedStringLiteral")
-public final class App
+final class App
 {
     @NonNls
     private static final Logger LOG = LogManager.getLogger(App.class);

@@ -14,7 +14,7 @@ import java.awt.event.KeyEvent;
  * @since 0.1.0
  */
 @SuppressWarnings("HardCodedStringLiteral")
-public final class ExitAppAction extends AbstractAction
+final class ExitAppAction extends AbstractAction
 {
     @NonNls
     private static final Logger LOG = LogManager.getLogger(ExitAppAction.class);

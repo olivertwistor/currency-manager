@@ -11,7 +11,7 @@ import java.util.NoSuchElementException;
  *
  * @since 0.1.0
  */
-public interface Dao<T>
+interface Dao<T>
 {
     /**
      * Saves this object to the provided database. If a record already exists

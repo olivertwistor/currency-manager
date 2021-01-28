@@ -91,12 +91,13 @@ public class Portfolio implements Dao<Portfolio>
                 statement.setInt(2, this.baseCurrency);
 
                 statement.executeUpdate();
-                LOG.info("Inserted {} in the database.", this);
+                LOG.info("Inserted {} into the database.", this);
 
                 // Get the last inserted row ID into this object.
                 try (final ResultSet resultSet = statement.getGeneratedKeys())
                 {
                     this.id = resultSet.getInt(1);
+                    LOG.debug("Retrieved the row ID: {}", this.id);
                 }
             }
         }
@@ -181,7 +182,6 @@ public class Portfolio implements Dao<Portfolio>
                 return portfolios;
             }
         }
-
     }
 
     @Override

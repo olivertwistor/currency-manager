@@ -13,7 +13,7 @@ import java.sql.SQLException;
  *
  * @since 0.1.0
  */
-public class Database
+class Database
 {
     @SuppressWarnings("unused")
     @NonNls
@@ -38,7 +38,7 @@ public class Database
      *
      * @since 0.1.0
      */
-    public Database(final String filename) throws SQLException
+    Database(final String filename) throws SQLException
     {
         final SQLiteDataSource dataSource = new SQLiteDataSource();
         final String url = JDBC_SQLITE_PREFIX + filename;
