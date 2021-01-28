@@ -196,6 +196,9 @@ public class Portfolio implements Dao<Portfolio>
             statement.setInt(1, this.id);
             statement.executeUpdate();
 
+            // Mark as deleted, so subsequent saves don't update, but inserts.
+            this.id = 0;
+
             LOG.info("Deleted {} from the database.", this);
         }
     }
@@ -212,6 +215,13 @@ public class Portfolio implements Dao<Portfolio>
 
             statement.executeUpdate(sql);
             LOG.info("Deleted all portfolios from the database.");
+
+           // Mark this object as deleted, so subsequent saves don't update,
+           // but inserts.
+           this.id = 0;
+        }
+    }
+
     @Override
     public int count(final Database database) throws SQLException
     {

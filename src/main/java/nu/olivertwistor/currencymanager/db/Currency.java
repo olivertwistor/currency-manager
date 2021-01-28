@@ -196,6 +196,9 @@ public class Currency implements Dao<Currency>
             statement.setInt(1, this.id);
             statement.executeUpdate();
 
+            // Mark as deleted, so subsequent saves don't update, but inserts.
+            this.id = 0;
+
             LOG.info("Deleted {} from the database.", this);
         }
     }
@@ -211,6 +214,10 @@ public class Currency implements Dao<Currency>
 
             statement.executeUpdate(sql);
             LOG.info("Deleted all currencies from the database.");
+
+            // Mark this object as deleted, so subsequent saves don't update,
+            // but inserts.
+            this.id = 0;
         }
     }
 

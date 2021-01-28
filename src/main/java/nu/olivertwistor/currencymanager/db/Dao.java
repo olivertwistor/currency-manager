@@ -64,6 +64,9 @@ interface Dao<T>
      * Deletes the record from the provided database, that corresponds with
      * this object.
      *
+     * Note that this object's ID field should be set to zero to denote that
+     * it doesn't exist anymore in the database.
+     *
      * @param database the database to delete from
      *
      * @throws SQLException if anything went wrong with the database.
@@ -76,6 +79,9 @@ interface Dao<T>
     /**
      * Deletes all records corresponding to this class, from the provided
      * database, that corresponds with this object.
+     *
+     * Note that this object's ID field should be set to zero to denote that
+     * it doesn't exist anymore in the database.
      *
      * NOTE: This removes every row in the table(s) corresponding to this class.
      *
