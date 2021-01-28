@@ -6,7 +6,9 @@ import org.jetbrains.annotations.NonNls;
 import org.sqlite.SQLiteDataSource;
 
 import java.sql.Connection;
+import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 
 /**
  * This class provides access to a {@link SQLiteDataSource} loaded with a
