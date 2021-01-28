@@ -29,11 +29,11 @@ final class MainMenuBar extends JMenuBar
      */
     MainMenuBar()
     {
-        final JMenuItem newPortfolioItem = new JMenuItem("New portfolio");
+        final Action newPortfolioAction = new NewPortfolioAction();
         final Action exitAppAction = new ExitAppAction();
 
         final JMenu fileMenu = new JMenu("File");
-        fileMenu.add(newPortfolioItem);
+        fileMenu.add(newPortfolioAction);
         fileMenu.add(exitAppAction);
 
         final JMenu editMenu = new JMenu("Edit");
