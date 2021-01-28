@@ -1,57 +1,53 @@
 package nu.olivertwistor.currencymanager;
 
-import nu.olivertwistor.currencymanager.db.Database;
+import nu.olivertwistor.currencymanager.mainwindow.MainWindow;
+import nu.olivertwistor.currencymanager.util.AppConfig;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+import org.jetbrains.annotations.NonNls;
 
+import java.awt.Component;
 import java.io.FileNotFoundException;
+import java.io.IOException;
 
-public final class App
+/**
+ * Main entry point for this application.
+ *
+ * @since 0.1.0
+ */
+@SuppressWarnings("HardCodedStringLiteral")
+final class App
 {
-    private App()
-    {
-        // Look for the database file. If it doesn't exist, create it and
-        // execute the first database migration script.
-        final Database database;
-        try
-        {
-            database = new Database("currency-manager.sql");
-        }
-        catch (final FileNotFoundException e)
-        {
-            e.printStackTrace();
-        }
-
-        // Update the database to the current version as defined in
-        // app.properties.
-
-
-        throw new UnsupportedOperationException("not implemented");
-    }
-
-    public static void main(final String[] args)
-    {
-        // We want one argument: path to the database file to use.
-        if (args.length != 1)
-        {
-            printUsage();
-        }
-
-        new App();
-    }
+    @NonNls
+    private static final Logger LOG = LogManager.getLogger(App.class);
 
     /**
-     * Prints the correct way to start the app, to stdout.
+     * Creates config objects and starts the main program window.
+     *
+     * @param args not used
      *
      * @since 0.1.0
      */
-    private static void printUsage()
+    public static void main(final String[] args)
     {
-        System.out.println("Usage:   java -jar [app filename] [path to " +
-                "database file]");
-        System.out.println("Example: java -jar currency-manager-1.0.3.jar " +
-                "db.sqlite3");
-        System.out.println();
-        System.out.println("The path to database file is relative to the " +
-                "location of the app. Note that this file doesn't have to " +
-                "exist. If it doesn't, it will be created.");
+        final AppConfig appConfig;
+        try
+        {
+            appConfig = new AppConfig("/app.properties");
+        }
+        catch (final FileNotFoundException e)
+        {
+            LOG.fatal("Failed to find app config file.", e);
+            return;
+        }
+        catch (final IOException e)
+        {
+            LOG.fatal("Failed to create app config object.", e);
+            return;
+        }
+
+        final Component mainWindow = new MainWindow(
+                "Currency Manager", appConfig.getWindowSize());
+        mainWindow.setVisible(true);
     }
 }

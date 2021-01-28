@@ -2,14 +2,11 @@ package nu.olivertwistor.currencymanager.db;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.jetbrains.annotations.NonNls;
 import org.sqlite.SQLiteDataSource;
 
-import java.io.File;
-import java.io.FileNotFoundException;
 import java.sql.Connection;
-import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Statement;
 
 /**
  * This class provides access to a {@link SQLiteDataSource} loaded with a
@@ -18,45 +15,42 @@ import java.sql.Statement;
  *
  * @since  0.1.0
  */
-public class Database
+class Database
 {
-    private static final Logger log = LogManager.getLogger(Database.class);
+    @SuppressWarnings("unused")
+    @NonNls
+    private static final Logger LOG = LogManager.getLogger(Database.class);
 
-    private static final String jdbc_db_url_prefix = "jdbc:sqlite:/";
+    @SuppressWarnings("unused")
+    @NonNls
+    private static final String JDBC_SQLITE_PREFIX = "jdbc:sqlite:";
 
-    private final SQLiteDataSource dataSource;
+    private final Connection connection;
 
     /**
-     * Creates a new SQLiteDataSource and points it to the provided database
-     * file.
+     * Creates a data source from the supplied filename, and connects to it.
+     * The connection can later be retrieved by calling
+     * {@link #getConnection()}.
      *
-     * @param path file path to the database, relative to the location of the
-     *             app
+     * @param filename path to the SQLite database (note that the prefix
+     *                 shouldn't be included in this string)
+     *
+     * @throws SQLException if the creation of the data source or the
+     *                      connection to it failed.
      *
      * @since 0.1.0
      */
-    public Database(final String path) throws FileNotFoundException
+    Database(final String filename) throws SQLException
     {
-        final String fileAbsPath = new File(path).getAbsolutePath();
-
-        this.dataSource = new SQLiteDataSource();
-        this.dataSource.setUrl(jdbc_db_url_prefix + fileAbsPath);
-
-        log.info("Loaded database {0}", fileAbsPath);
+        final SQLiteDataSource dataSource = new SQLiteDataSource();
+        final String url = JDBC_SQLITE_PREFIX + filename;
+        dataSource.setUrl(url);
+        this.connection = dataSource.getConnection();
     }
 
-    /**
-     * Establishes a connection to the database.
-     *
-     * @return The connection object.
-     *
-     * @throws SQLException if the connection failed
-     *
-     * @since 0.1.0
-     */
-    public Connection getConnection() throws SQLException
+    Connection getConnection()
     {
-        return this.dataSource.getConnection();
+        return this.connection;
     }
 
     /**
@@ -113,9 +107,12 @@ public class Database
         }
     }
 
+    @SuppressWarnings("PublicMethodWithoutLogging")
     @Override
     public String toString()
     {
-        return "Database{dataSource=" + this.dataSource + "}";
+        return "Database{" +
+                "connection=" + this.connection +
+                '}';
     }
 }
