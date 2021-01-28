@@ -24,8 +24,7 @@ public class AppConfigTest
      * @since 0.1.0
      */
     @Test
-    public void When_CreatingAppConfigObject_Then_NoExceptionIsThrown()
-            throws Exception
+    public void AppConfig_Constructor_NoExceptionIsThrown() throws Exception
     {
         new AppConfig(FILE_NAME);
     }
@@ -39,7 +38,7 @@ public class AppConfigTest
      * @since 0.1.0
      */
     @Test
-    public void When_LoadingWindowSize_Then_CorrectValueIsReturned()
+    public void GetWindowSize_OnFixedDimension_CorrectValueReturned()
             throws Exception
     {
         final AppConfig appConfig = new AppConfig(FILE_NAME);

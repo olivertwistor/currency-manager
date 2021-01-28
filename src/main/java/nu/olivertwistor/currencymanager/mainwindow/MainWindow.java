@@ -1,6 +1,9 @@
 package nu.olivertwistor.currencymanager.mainwindow;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.jetbrains.annotations.Nls;
+import org.jetbrains.annotations.NonNls;
 
 import javax.swing.JFrame;
 import javax.swing.JMenuBar;
@@ -17,6 +20,9 @@ import java.awt.Dimension;
  */
 public final class MainWindow extends JFrame
 {
+    @NonNls
+    private static final Logger LOG = LogManager.getLogger(MainWindow.class);
+
     private static final long serialVersionUID = 7830866209130181043L;
 
     /**
@@ -31,7 +37,9 @@ public final class MainWindow extends JFrame
     public MainWindow(final @Nls String title, final Dimension size)
     {
         super(title);
+
         this.setSize(size);
+        LOG.debug("Window size: {}.", this.getSize());
 
         // When this JFrame closes, the app should exit.
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -39,8 +47,10 @@ public final class MainWindow extends JFrame
         // Use a JPanel as the content pane.
         final Container contentPanel = new JPanel(new BorderLayout());
         this.setContentPane(contentPanel);
+        LOG.debug("Content pane: {}", this.getContentPane());
 
         final JMenuBar mainMenuBar = new MainMenuBar();
         this.setJMenuBar(mainMenuBar);
+        LOG.debug("Menu bar: {}", this.getJMenuBar());
     }
 }

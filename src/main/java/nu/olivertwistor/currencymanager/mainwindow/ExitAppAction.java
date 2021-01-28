@@ -8,17 +8,29 @@ import javax.swing.AbstractAction;
 import java.awt.event.ActionEvent;
 import java.awt.event.KeyEvent;
 
-public final class ExitAppAction extends AbstractAction
+/**
+ * This class defines an action for exiting the application.
+ *
+ * @since 0.1.0
+ */
+@SuppressWarnings("HardCodedStringLiteral")
+final class ExitAppAction extends AbstractAction
 {
-    private static final @NonNls Logger LOG = LogManager.getLogger(
-            ExitAppAction.class);
+    @NonNls
+    private static final Logger LOG = LogManager.getLogger(ExitAppAction.class);
+
     private static final long serialVersionUID = 406680657113993985L;
 
-    public ExitAppAction()
+    /**
+     * Creates a new action with a name, short description and a mnemonic.
+     *
+     * @since 0.1.0
+     */
+    ExitAppAction()
     {
         super("Exit the app");
         this.putValue(SHORT_DESCRIPTION, "This will exit the application.");
-        this.putValue(MNEMONIC_KEY, new Integer(KeyEvent.VK_X));
+        this.putValue(MNEMONIC_KEY, KeyEvent.VK_X);
     }
 
     @Override
