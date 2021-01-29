@@ -1,5 +1,6 @@
-package nu.olivertwistor.currencymanager.mainwindow;
+package nu.olivertwistor.currencymanager.ui;
 
+import nu.olivertwistor.currencymanager.util.AppConfig;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.jetbrains.annotations.Nls;
@@ -25,6 +26,8 @@ public final class MainWindow extends JFrame
 
     private static final long serialVersionUID = 7830866209130181043L;
 
+    private AppConfig appConfig;
+
     /**
      * Creates the window, sets its title and initial size. Adds the main menu
      * bar and all the visual components of the window.
@@ -34,12 +37,9 @@ public final class MainWindow extends JFrame
      *
      * @since 0.1.0
      */
-    public MainWindow(final @Nls String title, final Dimension size)
+    public MainWindow(final @Nls String title)
     {
         super(title);
-
-        this.setSize(size);
-        LOG.debug("Window size: {}.", this.getSize());
 
         // When this JFrame closes, the app should exit.
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -47,10 +47,18 @@ public final class MainWindow extends JFrame
         // Use a JPanel as the content pane.
         final Container contentPanel = new JPanel(new BorderLayout());
         this.setContentPane(contentPanel);
-        LOG.debug("Content pane: {}", this.getContentPane());
 
-        final JMenuBar mainMenuBar = new MainMenuBar();
+        this.setLocationByPlatform(true);
+    }
+
+    public void useMainMenuBar()
+    {
+        final JMenuBar mainMenuBar = new MainMenuBar(this);
         this.setJMenuBar(mainMenuBar);
-        LOG.debug("Menu bar: {}", this.getJMenuBar());
+    }
+
+    public void setAppConfig(final AppConfig appConfig)
+    {
+        this.appConfig = appConfig;
     }
 }

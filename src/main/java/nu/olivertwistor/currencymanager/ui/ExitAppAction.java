@@ -1,4 +1,4 @@
-package nu.olivertwistor.currencymanager.mainwindow;
+package nu.olivertwistor.currencymanager.ui;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -17,7 +17,8 @@ import java.awt.event.KeyEvent;
 final class ExitAppAction extends AbstractAction
 {
     @NonNls
-    private static final Logger LOG = LogManager.getLogger(ExitAppAction.class);
+    private static final Logger LOG =
+            LogManager.getLogger(ExitAppAction.class);
 
     private static final long serialVersionUID = 406680657113993985L;
 

@@ -1,5 +1,7 @@
-package nu.olivertwistor.currencymanager.mainwindow;
+package nu.olivertwistor.currencymanager.ui;
 
+import nu.olivertwistor.currencymanager.ui.portfolio.NewPortfolioDialog;
+import nu.olivertwistor.currencymanager.ui.portfolio.OpenPortfolioAction;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.jetbrains.annotations.NonNls;
@@ -8,6 +10,9 @@ import javax.swing.Action;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
+import java.awt.Frame;
+import java.awt.event.ActionEvent;
+import java.awt.event.KeyEvent;
 
 /**
  * The menu bar that is attached to the main window.
@@ -27,13 +32,19 @@ final class MainMenuBar extends JMenuBar
      *
      * @since 0.1.0
      */
-    MainMenuBar()
+    MainMenuBar(final Frame owner)
     {
-        final Action newPortfolioAction = new NewPortfolioAction();
+        final JMenuItem newPortfolioItem =
+                new JMenuItem("New portfolio", KeyEvent.VK_N);
+        newPortfolioItem.addActionListener((ActionEvent event) -> {
+            new NewPortfolioDialog(owner);
+        });
+        final Action openPortfolioAction = new OpenPortfolioAction();
         final Action exitAppAction = new ExitAppAction();
 
         final JMenu fileMenu = new JMenu("File");
-        fileMenu.add(newPortfolioAction);
+        fileMenu.add(newPortfolioItem);
+        fileMenu.add(openPortfolioAction);
         fileMenu.add(exitAppAction);
 
         final JMenu editMenu = new JMenu("Edit");

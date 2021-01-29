@@ -37,7 +37,7 @@ public class Portfolio implements Dao<Portfolio>
      *
      * @since 0.1.0
      */
-    Portfolio(final String name, final int baseCurrency)
+    public Portfolio(final String name, final int baseCurrency)
     {
         this.name = name;
         this.baseCurrency = baseCurrency;

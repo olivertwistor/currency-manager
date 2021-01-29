@@ -1,14 +1,17 @@
 package nu.olivertwistor.currencymanager;
 
-import nu.olivertwistor.currencymanager.mainwindow.MainWindow;
+import nu.olivertwistor.currencymanager.ui.MainWindow;
 import nu.olivertwistor.currencymanager.util.AppConfig;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.jetbrains.annotations.NonNls;
 
+import javax.swing.SwingUtilities;
 import java.awt.Component;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 
 /**
  * Main entry point for this application.
@@ -30,24 +33,31 @@ final class App
      */
     public static void main(final String[] args)
     {
-        final AppConfig appConfig;
-        try
+        SwingUtilities.invokeLater(new Runnable()
         {
-            appConfig = new AppConfig("/app.properties");
-        }
-        catch (final FileNotFoundException e)
-        {
-            LOG.fatal("Failed to find app config file.", e);
-            return;
-        }
-        catch (final IOException e)
-        {
-            LOG.fatal("Failed to create app config object.", e);
-            return;
-        }
+            @Override
+            public void run()
+            {
+                final MainWindow mainWindow =
+                        new MainWindow("Currency Manager");
+                mainWindow.useMainMenuBar();
+                mainWindow.setVisible(true);
 
-        final Component mainWindow = new MainWindow(
-                "Currency Manager", appConfig.getWindowSize());
-        mainWindow.setVisible(true);
+                // Load or create app config in user home folder. Let
+                // MainWindow access it.
+                final Path appConfigPath = Paths.get(
+                        System.getProperty("user.home"),
+                        ".olivertwistor", ".cm", "app.properties");
+                try
+                {
+                    final AppConfig appConfig = new AppConfig(appConfigPath);
+                    mainWindow.setAppConfig(appConfig);
+                }
+                catch (final IOException e)
+                {
+                    LOG.error("x", e);
+                }
+            }
+        });
     }
 }
