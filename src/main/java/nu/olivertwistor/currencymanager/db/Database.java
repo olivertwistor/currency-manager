@@ -17,7 +17,7 @@ import java.sql.Statement;
  *
  * @since  0.1.0
  */
-class Database
+public class Database
 {
     @SuppressWarnings("unused")
     @NonNls
@@ -41,12 +41,14 @@ class Database
      *
      * @since 0.1.0
      */
-    Database(final String filename) throws SQLException
+    public Database(final String filename) throws SQLException
     {
         final SQLiteDataSource dataSource = new SQLiteDataSource();
         final String url = JDBC_SQLITE_PREFIX + filename;
         dataSource.setUrl(url);
         this.connection = dataSource.getConnection();
+
+        LOG.info("Created a database connection to {}.", dataSource.getUrl());
     }
 
     Connection getConnection()

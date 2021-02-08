@@ -1,5 +1,6 @@
 package nu.olivertwistor.currencymanager.ui;
 
+import nu.olivertwistor.currencymanager.ui.database.NewDatabaseAction;
 import nu.olivertwistor.currencymanager.ui.portfolio.NewPortfolioDialog;
 import nu.olivertwistor.currencymanager.ui.portfolio.OpenPortfolioAction;
 import org.apache.logging.log4j.LogManager;
@@ -11,6 +12,8 @@ import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import java.awt.Frame;
+import java.awt.Menu;
+import java.awt.MenuItem;
 import java.awt.event.ActionEvent;
 import java.awt.event.KeyEvent;
 
@@ -34,25 +37,15 @@ final class MainMenuBar extends JMenuBar
      */
     MainMenuBar(final Frame owner)
     {
-        final JMenuItem newPortfolioItem =
-                new JMenuItem("New portfolio", KeyEvent.VK_N);
-        newPortfolioItem.addActionListener((ActionEvent event) -> {
-            new NewPortfolioDialog(owner);
-        });
-        final Action openPortfolioAction = new OpenPortfolioAction();
-        final Action exitAppAction = new ExitAppAction();
+        final NewDatabaseAction newDatabaseAction =
+                new NewDatabaseAction(owner);
 
-        final JMenu fileMenu = new JMenu("File");
-        fileMenu.add(newPortfolioItem);
-        fileMenu.add(openPortfolioAction);
-        fileMenu.add(exitAppAction);
+        final JMenuItem newDatabaseMenuItem = new JMenuItem(newDatabaseAction);
 
-        final JMenu editMenu = new JMenu("Edit");
-        final JMenu helpMenu = new JMenu("Help");
+        final JMenu databaseMenu = new JMenu("Database");
+        databaseMenu.add(newDatabaseMenuItem);
 
-        this.add(fileMenu);
-        this.add(editMenu);
-        this.add(helpMenu);
+        this.add(databaseMenu);
 
         LOG.debug("Created the main menu bar.");
     }
