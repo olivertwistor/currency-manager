@@ -4,14 +4,13 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.jetbrains.annotations.NonNls;
 
-import java.awt.Dimension;
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.io.Serializable;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.Properties;
@@ -21,11 +20,15 @@ import java.util.Properties;
  *
  * @since 0.1.0
  */
-public final class AppConfig
+public final class AppConfig implements Serializable
 {
+    @SuppressWarnings("unused")
     @NonNls
     private static final Logger LOG = LogManager.getLogger(AppConfig.class);
 
+    private static final long serialVersionUID = 1L;
+
+    @NonNls
     private final Properties properties;
 
     /**
@@ -35,6 +38,8 @@ public final class AppConfig
      *
      * @param path path to either an existing config file, or where a new one
      *             should be created
+     *
+     * @throws IOException if writing to the file failed.
      *
      * @since 0.1.0
      */
@@ -49,7 +54,7 @@ public final class AppConfig
         {
             try (final InputStream inputStream = new FileInputStream(file))
             {
-                properties.load(inputStream);
+                this.properties.load(inputStream);
             }
         }
         else
@@ -58,8 +63,9 @@ public final class AppConfig
             file.createNewFile();
             try (final OutputStream outputStream = new FileOutputStream(file))
             {
-                properties.setProperty("abc", "def");
-                properties.store(outputStream, "App config");
+                // Here all properties should be set and written to the file.
+                //properties.setProperty("abc", "def");
+                this.properties.store(outputStream, "App config");
             }
         }
     }

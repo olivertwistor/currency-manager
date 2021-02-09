@@ -48,7 +48,8 @@ public class Database
         dataSource.setUrl(url);
         this.connection = dataSource.getConnection();
 
-        LOG.info("Created a database connection to {}.", dataSource.getUrl());
+        LOG.info("Created a database connection to {}.",
+                dataSource.getUrl());
     }
 
     Connection getConnection()

@@ -7,8 +7,6 @@ import org.apache.logging.log4j.Logger;
 import org.jetbrains.annotations.NonNls;
 
 import javax.swing.SwingUtilities;
-import java.awt.Component;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -21,8 +19,14 @@ import java.nio.file.Paths;
 @SuppressWarnings("HardCodedStringLiteral")
 final class App
 {
+    /**
+     * Logger for this App class.
+     *
+     * @since 0.1.0
+     */
+    @SuppressWarnings("WeakerAccess")
     @NonNls
-    private static final Logger LOG = LogManager.getLogger(App.class);
+    static final Logger LOG = LogManager.getLogger(App.class);
 
     /**
      * Creates config objects and starts the main program window.
@@ -33,6 +37,7 @@ final class App
      */
     public static void main(final String[] args)
     {
+        //noinspection Convert2Lambda
         SwingUtilities.invokeLater(new Runnable()
         {
             @Override

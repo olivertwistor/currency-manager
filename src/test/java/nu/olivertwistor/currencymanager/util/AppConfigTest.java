@@ -1,10 +1,8 @@
 package nu.olivertwistor.currencymanager.util;
 
 import org.jetbrains.annotations.NonNls;
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
-import java.awt.Dimension;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 
