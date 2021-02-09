@@ -1,4 +1,4 @@
-package nu.olivertwistor.currencymanager.mainwindow;
+package nu.olivertwistor.currencymanager.ui;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -13,13 +13,14 @@ import java.awt.event.KeyEvent;
  *
  * @since 0.1.0
  */
-@SuppressWarnings("HardCodedStringLiteral")
+@SuppressWarnings({"HardCodedStringLiteral", "unused"})
 final class ExitAppAction extends AbstractAction
 {
     @NonNls
-    private static final Logger LOG = LogManager.getLogger(ExitAppAction.class);
+    private static final Logger LOG =
+            LogManager.getLogger(ExitAppAction.class);
 
-    private static final long serialVersionUID = 406680657113993985L;
+    private static final long serialVersionUID = 1L;
 
     /**
      * Creates a new action with a name, short description and a mnemonic.

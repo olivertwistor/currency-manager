@@ -1,10 +1,10 @@
-package nu.olivertwistor.currencymanager.mainwindow;
+package nu.olivertwistor.currencymanager.ui;
 
+import nu.olivertwistor.currencymanager.ui.database.NewDatabaseAction;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.jetbrains.annotations.NonNls;
 
-import javax.swing.Action;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
@@ -20,28 +20,27 @@ final class MainMenuBar extends JMenuBar
     @NonNls
     private static final Logger LOG = LogManager.getLogger(MainMenuBar.class);
 
-    private static final long serialVersionUID = -1912239627491741740L;
+    private static final long serialVersionUID = 1L;
 
     /**
      * Creates all menus and menu items in this menu bar.
      *
+     * @param owner MainWindow instance to which this menu bar is attached
+     *
      * @since 0.1.0
      */
-    MainMenuBar()
+    MainMenuBar(final MainWindow owner)
     {
-        final JMenuItem newPortfolioItem = new JMenuItem("New portfolio");
-        final Action exitAppAction = new ExitAppAction();
+        final NewDatabaseAction newDatabaseAction =
+                new NewDatabaseAction(owner);
 
-        final JMenu fileMenu = new JMenu("File");
-        fileMenu.add(newPortfolioItem);
-        fileMenu.add(exitAppAction);
+        final JMenuItem newDatabaseMenuItem =
+                new JMenuItem(newDatabaseAction);
 
-        final JMenu editMenu = new JMenu("Edit");
-        final JMenu helpMenu = new JMenu("Help");
+        final JMenu databaseMenu = new JMenu("Database");
+        databaseMenu.add(newDatabaseMenuItem);
 
-        this.add(fileMenu);
-        this.add(editMenu);
-        this.add(helpMenu);
+        this.add(databaseMenu);
 
         LOG.debug("Created the main menu bar.");
     }

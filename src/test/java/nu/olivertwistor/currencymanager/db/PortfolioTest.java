@@ -21,7 +21,7 @@ public class PortfolioTest
     private static Database database;
 
     /**
-     * Loads the database "test.sqlite".
+     * Loads the database "test.sqlite" and upgrading it if necessary.
      *
      * @throws Exception if anything went wrong.
      *
@@ -31,6 +31,7 @@ public class PortfolioTest
     public static void setUp() throws Exception
     {
         database = new Database("test.sqlite");
+        DatabaseUpgrader.upgrade(database);
     }
 
     /**

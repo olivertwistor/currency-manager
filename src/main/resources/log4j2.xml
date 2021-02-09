@@ -23,7 +23,7 @@
         <Logger name="nu.olivertwistor.currencymanager"
                 level="debug"
                 additivity="false">
-            <AppenderRef ref="LogToRollingRandomAccessFile"/>
+            <!--<AppenderRef ref="LogToRollingRandomAccessFile"/>-->
             <AppenderRef ref="LogToConsole"/>
         </Logger>
         <Root level="error">

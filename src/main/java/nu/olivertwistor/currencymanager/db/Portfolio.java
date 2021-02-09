@@ -4,6 +4,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.jetbrains.annotations.NonNls;
 
+import java.io.Serializable;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -20,10 +21,12 @@ import java.util.NoSuchElementException;
  * @since 0.1.0
  */
 @SuppressWarnings({"unused", "StringConcatenation"})
-public class Portfolio implements Dao<Portfolio>
+public class Portfolio implements Dao<Portfolio>, Serializable
 {
     @NonNls
     private static final Logger LOG = LogManager.getLogger(Portfolio.class);
+
+    private static final long serialVersionUID = 1L;
 
     private int id;
     private String name;
@@ -51,7 +54,7 @@ public class Portfolio implements Dao<Portfolio>
      *
      * @since 0.1.0
      */
-    public Portfolio(final String name, final Currency baseCurrency)
+    Portfolio(final String name, final Currency baseCurrency)
     {
         this(name, baseCurrency.getId());
     }
@@ -262,7 +265,7 @@ public class Portfolio implements Dao<Portfolio>
         return this.baseCurrency;
     }
 
-    public void setBaseCurrency(final int baseCurrency)
+    void setBaseCurrency(final int baseCurrency)
     {
         this.baseCurrency = baseCurrency;
     }
