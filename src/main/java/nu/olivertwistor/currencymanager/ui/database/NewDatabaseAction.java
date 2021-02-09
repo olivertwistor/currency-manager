@@ -3,6 +3,7 @@ package nu.olivertwistor.currencymanager.ui.database;
 import nu.olivertwistor.currencymanager.db.Database;
 import nu.olivertwistor.currencymanager.db.DatabaseUpgrader;
 import nu.olivertwistor.currencymanager.ui.MainWindow;
+import nu.olivertwistor.currencymanager.util.FileUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.jetbrains.annotations.NonNls;
@@ -58,9 +59,11 @@ public final class NewDatabaseAction extends AbstractAction
         final int choice = fileChooser.showSaveDialog(this.parent);
         if (choice == JFileChooser.APPROVE_OPTION)
         {
-            final File file = fileChooser.getSelectedFile();
+            File file = fileChooser.getSelectedFile();
             try
             {
+                file = FileUtils.addExtension(
+                        file, FileUtils.DATABASE_EXTENSION);
                 final Database database =
                         new Database(file.getAbsolutePath());
                 DatabaseUpgrader.upgrade(database);
