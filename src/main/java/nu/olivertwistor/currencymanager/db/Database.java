@@ -9,6 +9,8 @@ import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 
 /**
  * This class provides access to a {@link SQLiteDataSource} loaded with a
@@ -113,6 +115,15 @@ public class Database
                 return 0;
             }
         }
+    }
+
+    static String toSQLiteDate(final LocalDate date)
+    {
+        final DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ISO_DATE;
+        final String formattedDate = dateTimeFormatter.format(date);
+
+        LOG.debug("Converting {} to {}.", date, formattedDate);
+        return formattedDate;
     }
 
     @SuppressWarnings("PublicMethodWithoutLogging")
