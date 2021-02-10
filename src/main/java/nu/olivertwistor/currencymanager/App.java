@@ -16,7 +16,7 @@ import java.nio.file.Paths;
  *
  * @since 0.1.0
  */
-@SuppressWarnings("HardCodedStringLiteral")
+@SuppressWarnings({"HardCodedStringLiteral", "ClassIndependentOfModule"})
 final class App
 {
     /**
@@ -24,7 +24,7 @@ final class App
      *
      * @since 0.1.0
      */
-    @SuppressWarnings("WeakerAccess")
+    @SuppressWarnings({"WeakerAccess", "StaticMethodOnlyUsedInOneClass"})
     @NonNls
     static final Logger LOG = LogManager.getLogger(App.class);
 

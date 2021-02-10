@@ -209,7 +209,6 @@ public class Portfolio implements Dao<Portfolio>, Serializable
     @Override
     public void deleteAll(final Database database) throws SQLException
     {
-
         try (final Statement statement =
                      database.getConnection().createStatement())
        {
