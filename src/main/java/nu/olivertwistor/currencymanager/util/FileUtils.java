@@ -12,7 +12,8 @@ import java.util.Locale;
  *
  * @since 0.1.0
  */
-@SuppressWarnings("unused")
+@SuppressWarnings({"unused", "StaticMethodOnlyUsedInOneClass",
+        "ClassOnlyUsedInOnePackage"})
 public final class FileUtils
 {
     @NonNls

@@ -43,7 +43,7 @@ public final class NewDatabaseAction extends AbstractAction
      */
     public NewDatabaseAction(final MainWindow parent)
     {
-        super("New database");
+        super("New database...");
         this.parent = parent;
 
         this.putValue(SHORT_DESCRIPTION, "Create a new database file.");

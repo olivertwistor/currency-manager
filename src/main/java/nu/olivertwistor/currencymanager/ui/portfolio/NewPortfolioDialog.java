@@ -20,7 +20,8 @@ import java.awt.Window;
  *
  * @since 0.1.0
  */
-@SuppressWarnings({"HardCodedStringLiteral", "unused"})
+@SuppressWarnings({"HardCodedStringLiteral", "unused",
+        "ClassOnlyUsedInOnePackage"})
 public final class NewPortfolioDialog extends JDialog
 {
     private static final Logger LOG =

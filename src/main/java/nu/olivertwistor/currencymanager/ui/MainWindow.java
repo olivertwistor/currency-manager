@@ -27,9 +27,9 @@ public final class MainWindow extends JFrame
 
     private static final long serialVersionUID = 7830866209130181043L;
 
-    @SuppressWarnings({"FieldCanBeLocal", "unused"})
+    @SuppressWarnings("unused")
     private AppConfig appConfig;
-    @SuppressWarnings({"unused", "FieldCanBeLocal"})
+    @SuppressWarnings("unused")
     private transient Database database;
 
     /**
@@ -59,12 +59,11 @@ public final class MainWindow extends JFrame
      *
      * @since 0.1.0
      */
+    @SuppressWarnings("PublicMethodWithoutLogging")
     public void useMainMenuBar()
     {
         final JMenuBar mainMenuBar = new MainMenuBar(this);
         this.setJMenuBar(mainMenuBar);
-
-        LOG.debug("Set {} as JMenuBar.", mainMenuBar);
     }
 
     public void setAppConfig(final AppConfig appConfig)
