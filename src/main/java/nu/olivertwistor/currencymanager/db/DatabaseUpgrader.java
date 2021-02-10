@@ -84,6 +84,20 @@ public final class DatabaseUpgrader
 
                 statement.executeUpdate(createPortfolioTable);
 
+                @NonNls
+                final String createWalletTable =
+                        "CREATE TABLE IF NOT EXISTS wallet (" +
+                                "id INTEGER PRIMARY KEY, " +
+                                "name TEXT DEFAULT '', " +
+                                "base_currency INTEGER NOT NULL, " +
+                                "target_currency INTEGER NOT NULL, " +
+                                "FOREIGN KEY (base_currency) " +
+                                "REFERENCES currency(id) " +
+                                "ON UPDATE CASCADE ON DELETE CASCADE" +
+                        ");";
+
+                statement.executeUpdate(createWalletTable);
+
                 // If we have come this far, we can commit the transaction.
                 connection.commit();
                 LOG.debug("Committed the transaction.");

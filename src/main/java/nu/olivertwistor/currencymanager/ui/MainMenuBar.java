@@ -23,7 +23,7 @@ final class MainMenuBar extends JMenuBar
     private static final long serialVersionUID = 1L;
 
     /**
-     * Creates all menus and menu items in this menu bar.
+     * Creates all actions, menus and menu items in this menu bar.
      *
      * @param owner MainWindow instance to which this menu bar is attached
      *
@@ -31,16 +31,45 @@ final class MainMenuBar extends JMenuBar
      */
     MainMenuBar(final MainWindow owner)
     {
+        // Actions for the File menu.
         final NewDatabaseAction newDatabaseAction =
                 new NewDatabaseAction(owner);
+        final ExitAppAction exitAppAction = new ExitAppAction();
 
+        // Menu items in the File menu.
         final JMenuItem newDatabaseMenuItem =
                 new JMenuItem(newDatabaseAction);
+        final JMenuItem openDatabaseMenuItem =
+                new JMenuItem("Open a database...");
+        openDatabaseMenuItem.setEnabled(false);
 
-        final JMenu databaseMenu = new JMenu("Database");
-        databaseMenu.add(newDatabaseMenuItem);
+        // Construct the File menu.
+        final JMenu fileMenu = new JMenu("File");
+        fileMenu.add(newDatabaseMenuItem);
+        fileMenu.add(openDatabaseMenuItem);
+        fileMenu.addSeparator();
+        fileMenu.add(exitAppAction);
 
-        this.add(databaseMenu);
+        // Menu items in the Manage menu.
+        final JMenuItem managePortfoliosMenuItem =
+                new JMenuItem("Manage portfolios...");
+        managePortfoliosMenuItem.setEnabled(false);
+        final JMenuItem manageWalletsMenuItem =
+                new JMenuItem("Manage wallets...");
+        manageWalletsMenuItem.setEnabled(false);
+        final JMenuItem manageCurrenciesMenuItem =
+                new JMenuItem("Manage currencies...");
+        manageCurrenciesMenuItem.setEnabled(false);
+
+        // Construct the Manage menu.
+        final JMenu manageMenu = new JMenu("Manage");
+        manageMenu.add(managePortfoliosMenuItem);
+        manageMenu.add(manageWalletsMenuItem);
+        manageMenu.add(manageCurrenciesMenuItem);
+
+        // Add all menus to this menu bar.
+        this.add(fileMenu);
+        this.add(manageMenu);
 
         LOG.debug("Created the main menu bar.");
     }
