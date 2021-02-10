@@ -154,7 +154,7 @@ public class Portfolio implements Dao<Portfolio>, Serializable
                      database.getConnection().createStatement())
         {
             @NonNls
-            final String sql = "SELECT name, base_currency FROM portfolio;";
+            final String sql = "SELECT id, name, base_currency FROM portfolio;";
 
             try (final ResultSet resultSet = statement.executeQuery(sql))
             {
