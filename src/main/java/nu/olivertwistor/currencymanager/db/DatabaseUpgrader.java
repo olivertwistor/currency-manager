@@ -83,6 +83,7 @@ public final class DatabaseUpgrader
                         ");";
 
                 statement.executeUpdate(createPortfolioTable);
+                LOG.debug("Created table: portfolio");
 
                 @NonNls
                 final String createWalletTable =
@@ -91,12 +92,20 @@ public final class DatabaseUpgrader
                                 "name TEXT DEFAULT '', " +
                                 "base_currency INTEGER NOT NULL, " +
                                 "target_currency INTEGER NOT NULL, " +
+                                "portfolio INTEGER NOT NULL, " +
                                 "FOREIGN KEY (base_currency) " +
                                 "REFERENCES currency(id) " +
+                                "ON UPDATE CASCADE ON DELETE CASCADE, " +
+                                "FOREIGN KEY (target_currency) " +
+                                "REFERENCES currency(id) " +
+                                "ON UPDATE CASCADE ON DELETE CASCADE, " +
+                                "FOREIGN KEY (portfolio) " +
+                                "REFERENCES portfolio(id) " +
                                 "ON UPDATE CASCADE ON DELETE CASCADE" +
                         ");";
 
                 statement.executeUpdate(createWalletTable);
+                LOG.debug("Created table: wallet");
 
                 // If we have come this far, we can commit the transaction.
                 connection.commit();
