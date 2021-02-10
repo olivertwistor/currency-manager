@@ -31,7 +31,7 @@ public final class OpenPortfolioAction extends AbstractAction
      */
     public OpenPortfolioAction()
     {
-        super("Open portfolio");
+        super("Open a portfolio...");
         this.putValue(SHORT_DESCRIPTION, "Open a portfolio.");
         this.putValue(MNEMONIC_KEY, KeyEvent.VK_O);
     }
