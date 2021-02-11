@@ -9,6 +9,8 @@ import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 
 /**
  * This class provides access to a {@link SQLiteDataSource} loaded with a
@@ -113,6 +115,24 @@ public class Database
                 return 0;
             }
         }
+    }
+
+    static String toSQLiteDate(final LocalDate date)
+    {
+        final DateTimeFormatter dateTimeFormatter =
+                DateTimeFormatter.ISO_LOCAL_DATE;
+        final String formattedDate = dateTimeFormatter.format(date);
+
+        LOG.debug("Converting {} to {}.", date, formattedDate);
+        return formattedDate;
+    }
+
+    static LocalDate toLocalDate(final String sqliteDate)
+    {
+        final LocalDate localDate = LocalDate.parse(sqliteDate);
+
+        LOG.debug("Converting {} to {}.", sqliteDate, localDate);
+        return localDate;
     }
 
     @SuppressWarnings("PublicMethodWithoutLogging")

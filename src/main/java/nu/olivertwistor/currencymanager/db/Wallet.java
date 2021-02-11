@@ -15,9 +15,11 @@ import java.util.NoSuchElementException;
 
 /**
  * A wallet is a currency pairs the user owns and trades with. It has a
- * describing name (optional), a base currency and a target currency. For
- * example if the user trades buys bitcoin and sells to euros, bitcoin is the
- * target currency and euros is the base currency.
+ * describing name (optional), a base currency and a target currency. It
+ * belongs to a portfolio.
+ *
+ * For example if the user trades buys bitcoin and sells to euros, bitcoin is
+ * the target currency and euros is the base currency.
  *
  * @since 0.1.0
  */
@@ -33,69 +35,88 @@ public class Wallet implements Dao<Wallet>, Serializable
     private String name;
     private int baseCurrency;
     private int targetCurrency;
+    private int portfolio;
 
     /**
-     * Creates a wallet with a name, a base currency and a target currency.
+     * Creates a wallet with a name, a base currency, target currency and the
+     * portfolio of which this wallet belongs.
      *
      * @param name           description of this wallet
      * @param baseCurrency   ID of the {@link Currency} to use as a base
      * @param targetCurrency ID of the {@link Currency} to use as a target
+     * @param portfolio      ID of the {@link Portfolio} of which this wallet
+     *                       belongs
      *
      * @since 0.1.0
      */
     @SuppressWarnings("WeakerAccess")
     public Wallet(final String name,
                   final int baseCurrency,
-                  final int targetCurrency)
+                  final int targetCurrency,
+                  final int portfolio)
     {
         this.name = name;
         this.baseCurrency = baseCurrency;
         this.targetCurrency = targetCurrency;
+        this.portfolio = portfolio;
     }
 
     /**
-     * Creates a wallet with a name, a base currency and a target currency.
+     * Creates a wallet with a name, a base currency, target currency and the
+     * portfolio of which this wallet belongs.
      *
      * @param name           description of this wallet
      * @param baseCurrency   the {@link Currency} to use as a base
      * @param targetCurrency the {@link Currency} to use as a target
+     * @param portfolio      the {@link Portfolio} of which this wallet belongs
      *
      * @since 0.1.0
      */
     @SuppressWarnings("WeakerAccess")
     public Wallet(final String name,
                   final Currency baseCurrency,
-                  final Currency targetCurrency)
+                  final Currency targetCurrency,
+                  final Portfolio portfolio)
     {
-        this(name, baseCurrency.getId(), targetCurrency.getId());
+        this(name, baseCurrency.getId(), targetCurrency.getId(),
+                portfolio.getId());
     }
 
     /**
-     * Creates a wallet with a base currency and a target currency.
+     * Creates a wallet with a name, a base currency, target currency and the
+     * portfolio of which this wallet belongs.
      *
      * @param baseCurrency   ID of the {@link Currency} to use as a base
      * @param targetCurrency ID of the {@link Currency} to use as a target
+     * @param portfolio      ID of the {@link Portfolio} of which this wallet
+     *                       belongs
      *
      * @since 0.1.0
      */
     @SuppressWarnings("WeakerAccess")
-    public Wallet(final int baseCurrency, final int targetCurrency)
+    public Wallet(final int baseCurrency,
+                  final int targetCurrency,
+                  final int portfolio)
     {
-        this("", baseCurrency, targetCurrency);
+        this("", baseCurrency, targetCurrency, portfolio);
     }
 
     /**
-     * Creates a wallet with a base currency and a target currency.
+     * Creates a wallet with a name, a base currency, target currency and the
+     * portfolio of which this wallet belongs.
      *
      * @param baseCurrency   the {@link Currency} to use as a base
      * @param targetCurrency the {@link Currency} to use as a target
+     * @param portfolio      the {@link Portfolio} of which this wallet belongs
      *
      * @since 0.1.0
      */
     @SuppressWarnings("WeakerAccess")
-    public Wallet(final Currency baseCurrency, final Currency targetCurrency)
+    public Wallet(final Currency baseCurrency,
+                  final Currency targetCurrency,
+                  final Portfolio portfolio)
     {
-        this(baseCurrency.getId(), targetCurrency.getId());
+        this(baseCurrency.getId(), targetCurrency.getId(), portfolio.getId());
     }
 
     @Override
@@ -107,7 +128,8 @@ public class Wallet implements Dao<Wallet>, Serializable
         {
             @NonNls
             final String sql = "UPDATE wallet SET name = ?, " +
-                    "base_currency = ?, target_currency = ? WHERE id = ?;";
+                    "base_currency = ?, target_currency = ?, portfolio = ? " +
+                    "WHERE id = ?;";
 
             try (final PreparedStatement statement =
                          database.getConnection().prepareStatement(sql))
@@ -115,7 +137,8 @@ public class Wallet implements Dao<Wallet>, Serializable
                 statement.setString(1, this.name);
                 statement.setInt(2, this.baseCurrency);
                 statement.setInt(3, this.targetCurrency);
-                statement.setInt(4, this.id);
+                statement.setInt(4, this.portfolio);
+                statement.setInt(5, this.id);
 
                 statement.executeUpdate();
                 LOG.info("Updated {} in the database.", this);
@@ -125,7 +148,7 @@ public class Wallet implements Dao<Wallet>, Serializable
         {
             @NonNls
             final String sql = "INSERT INTO wallet (name, base_currency, " +
-                    "target_currency) VALUES (?, ?, ?);";
+                    "target_currency, portfolio) VALUES (?, ?, ?, ?);";
 
             try (final PreparedStatement statement =
                          database.getConnection().prepareStatement(sql))
@@ -133,6 +156,7 @@ public class Wallet implements Dao<Wallet>, Serializable
                 statement.setString(1, this.name);
                 statement.setInt(2, this.baseCurrency);
                 statement.setInt(3, this.targetCurrency);
+                statement.setInt(4, this.portfolio);
 
                 statement.executeUpdate();
                 LOG.info("Inserted {} into the database.", this);
@@ -155,8 +179,8 @@ public class Wallet implements Dao<Wallet>, Serializable
             throws SQLException
     {
         @NonNls
-        final String sql = "SELECT name, base_currency, target_currency " +
-                "FROM wallet WHERE id = ?;";
+        final String sql = "SELECT name, base_currency, target_currency, " +
+                "portfolio FROM wallet WHERE id = ?;";
 
         try (final PreparedStatement statement =
                      database.getConnection().prepareStatement(sql))
@@ -178,8 +202,11 @@ public class Wallet implements Dao<Wallet>, Serializable
                     final int targetCurrency =
                             resultSet.getInt("target_currency");
 
-                    final Wallet wallet =
-                            new Wallet(name, baseCurrency, targetCurrency);
+                    @NonNls
+                    final int portfolio = resultSet.getInt("portfolio");
+
+                    final Wallet wallet = new Wallet(
+                            name, baseCurrency, targetCurrency, portfolio);
                     wallet.id = id;
 
                     LOG.info("Read {} from the database.", wallet);
@@ -202,7 +229,7 @@ public class Wallet implements Dao<Wallet>, Serializable
         {
             @NonNls
             final String sql = "SELECT id, name, base_currency, " +
-                    "target_currency FROM wallet;";
+                    "target_currency, portfolio FROM wallet;";
 
             try (final ResultSet resultSet = statement.executeQuery(sql))
             {
@@ -223,16 +250,18 @@ public class Wallet implements Dao<Wallet>, Serializable
                     final int targetCurrency =
                             resultSet.getInt("target_currency");
 
-                    final Wallet wallet =
-                            new Wallet(name, baseCurrency, targetCurrency);
+                    @NonNls
+                    final int portfolio = resultSet.getInt("portfolio");
+
+                    final Wallet wallet = new Wallet(
+                            name, baseCurrency, targetCurrency, portfolio);
                     wallet.id = id;
 
                     wallets.add(wallet);
                     LOG.debug("Read {} from the database.", wallet);
                 }
 
-                LOG.info("Read {} wallets from the database.",
-                        wallets.size());
+                LOG.info("Read {} wallets from the database.", wallets.size());
 
                 return wallets;
             }
@@ -296,6 +325,11 @@ public class Wallet implements Dao<Wallet>, Serializable
                 return nRows;
             }
         }
+    }
+
+    public int getId()
+    {
+        return this.id;
     }
 
     @SuppressWarnings("unused")
