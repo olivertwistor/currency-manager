@@ -119,11 +119,20 @@ public class Database
 
     static String toSQLiteDate(final LocalDate date)
     {
-        final DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ISO_DATE;
+        final DateTimeFormatter dateTimeFormatter =
+                DateTimeFormatter.ISO_LOCAL_DATE;
         final String formattedDate = dateTimeFormatter.format(date);
 
         LOG.debug("Converting {} to {}.", date, formattedDate);
         return formattedDate;
+    }
+
+    static LocalDate toLocalDate(final String sqliteDate)
+    {
+        final LocalDate localDate = LocalDate.parse(sqliteDate);
+
+        LOG.debug("Converting {} to {}.", sqliteDate, localDate);
+        return localDate;
     }
 
     @SuppressWarnings("PublicMethodWithoutLogging")

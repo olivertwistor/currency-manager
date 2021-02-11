@@ -78,8 +78,8 @@ public final class DatabaseUpgrader
                                 "name TEXT NOT NULL, " +
                                 "base_currency INTEGER NOT NULL, " +
                                 "FOREIGN KEY (base_currency) " +
-                                "REFERENCES currency(id) " +
-                                "ON UPDATE CASCADE ON DELETE CASCADE" +
+                                    "REFERENCES currency(id) " +
+                                    "ON UPDATE CASCADE ON DELETE CASCADE" +
                         ");";
 
                 statement.executeUpdate(createPortfolioTable);
@@ -94,18 +94,41 @@ public final class DatabaseUpgrader
                                 "target_currency INTEGER NOT NULL, " +
                                 "portfolio INTEGER NOT NULL, " +
                                 "FOREIGN KEY (base_currency) " +
-                                "REFERENCES currency(id) " +
-                                "ON UPDATE CASCADE ON DELETE CASCADE, " +
+                                    "REFERENCES currency(id) " +
+                                    "ON UPDATE CASCADE ON DELETE CASCADE, " +
                                 "FOREIGN KEY (target_currency) " +
-                                "REFERENCES currency(id) " +
-                                "ON UPDATE CASCADE ON DELETE CASCADE, " +
+                                    "REFERENCES currency(id) " +
+                                    "ON UPDATE CASCADE ON DELETE CASCADE, " +
                                 "FOREIGN KEY (portfolio) " +
-                                "REFERENCES portfolio(id) " +
-                                "ON UPDATE CASCADE ON DELETE CASCADE" +
+                                    "REFERENCES portfolio(id) " +
+                                    "ON UPDATE CASCADE ON DELETE CASCADE" +
                         ");";
 
                 statement.executeUpdate(createWalletTable);
                 LOG.debug("Created table: wallet");
+
+                @NonNls
+                final String createTransactionTable =
+                        "CREATE TABLE IF NOT EXISTS 'transaction' (" +
+                                "id INTEGER PRIMARY KEY, " +
+                                "date TEXT NOT NULL, " +
+                                "to_amount REAL NOT NULL, " +
+                                "to_currency INTEGER NOT NULL, " +
+                                "from_amount REAL NOT NULL, " +
+                                "from_currency INTEGER NOT NULL, " +
+                                "wallet INTEGER NOT NULL, " +
+                                "FOREIGN KEY (to_currency) " +
+                                    "REFERENCES currency(id) " +
+                                    "ON UPDATE CASCADE ON DELETE CASCADE, " +
+                                "FOREIGN KEY (from_currency) " +
+                                    "REFERENCES currency(id) " +
+                                    "ON UPDATE CASCADE ON DELETE CASCADE, " +
+                                "FOREIGN KEY (wallet) " +
+                                    "REFERENCES wallet(id) " +
+                                    "ON UPDATE CASCADE ON DELETE CASCADE);";
+
+                statement.executeUpdate(createTransactionTable);
+                LOG.debug("Created table: transaction");
 
                 // If we have come this far, we can commit the transaction.
                 connection.commit();

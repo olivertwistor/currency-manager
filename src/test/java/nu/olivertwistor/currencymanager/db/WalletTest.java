@@ -45,12 +45,14 @@ public class WalletTest
     @Test
     public void Save_NewWallet_IdAboveZeroAfterSave() throws Exception
     {
-        // First, make sure that there is at least one currency in the
-        // database we can use.
+        // First, make sure that there is at least one currency and one
+        // portfolio in the database we can use.
         final Currency currency = new Currency("BTC", "Bitcoin");
         currency.save(database);
+        final Portfolio portfolio = new Portfolio("Portfolio", currency);
+        portfolio.save(database);
 
-        final Dao<Wallet> wallet = new Wallet(currency, currency);
+        final Dao<Wallet> wallet = new Wallet(currency, currency, portfolio);
         final int idAfterSave = wallet.save(database);
 
         assertThat(idAfterSave, greaterThan(0));
@@ -67,14 +69,15 @@ public class WalletTest
     @Test
     public void Save_ExistingWallet_SameIdAfterSecondSave() throws Exception
     {
-        // First, make sure that there are at least two currencies in the
-        // database we can switch between.
+        // First, make sure that there are at least two currencies and one
+        // portfolio in the database we can switch between.
         final Currency aud = new Currency("AUD", "Australian dollar");
         aud.save(database);
         final Currency gbp = new Currency("GBP", "British pound sterling");
         gbp.save(database);
+        final Portfolio portfolio = new Portfolio("Portfolio", aud);
 
-        final Wallet wallet = new Wallet(aud, aud);
+        final Wallet wallet = new Wallet(aud, aud, portfolio);
         final int idAfterFirstSave = wallet.save(database);
 
         wallet.setBaseCurrency(gbp.getId());
@@ -95,12 +98,13 @@ public class WalletTest
     @Test
     public void Load_ExistingWallet_CurrencyIsFound() throws Exception
     {
-        // First, make sure that there is at least one currency in the
-        // database we can use.
+        // First, make sure that there is at least one currency and one
+        // portfolio in the database we can use.
         final Currency currency = new Currency("LTC", "Litecoin");
         currency.save(database);
+        final Portfolio portfolio = new Portfolio("Portfolio", currency);
 
-        final Dao<Wallet> newWallet = new Wallet(currency, currency);
+        final Dao<Wallet> newWallet = new Wallet(currency, currency, portfolio);
         final int createdId = newWallet.save(database);
 
         newWallet.load(createdId, database);
@@ -120,7 +124,7 @@ public class WalletTest
         final int faultyId = -4;
 
         Assertions.assertThrows(NoSuchElementException.class, () ->
-                new Wallet(0, 0).load(faultyId, database));
+                new Wallet(0, 0, 0).load(faultyId, database));
     }
 
     /**
@@ -135,7 +139,7 @@ public class WalletTest
     public void LoadAll_EmptyTable_ZeroRecordsFound() throws Exception
     {
         // Empty the wallet table.
-        final Dao<Wallet> wallet = new Wallet(0, 0);
+        final Dao<Wallet> wallet = new Wallet(0, 0, 0);
         wallet.deleteAll(database);
 
         final List<Wallet> wallets = wallet.loadAll(database);
@@ -156,10 +160,14 @@ public class WalletTest
     public void LoadAll_NonEmptyTable_MoreThanZeroRecordsFound()
             throws Exception
     {
-        // Make sure we have at least one wallet in the database.
+        // Make sure we have at least one currency and one portfolio in the
+        // database.
         final Currency currency = new Currency("XLM", "Stellar");
         currency.save(database);
-        final Dao<Wallet> wallet = new Wallet(currency, currency);
+        final Portfolio portfolio = new Portfolio("Portfolio", currency);
+        portfolio.save(database);
+
+        final Dao<Wallet> wallet = new Wallet(currency, currency, portfolio);
         wallet.save(database);
 
         final int nWallets = wallet.count(database);
@@ -179,12 +187,15 @@ public class WalletTest
     public void Delete_ExistingWallet_RemovesOneRowFromTable()
             throws Exception
     {
-        // First, make sure that there is at least one currency in the
-        // database we can use.
+        // First, make sure that there is at least one currency and one
+        // portfolio in the database we can use.
         final Currency currency = new Currency("CAD", "Canadian dollar");
         currency.save(database);
+        final Portfolio portfolio = new Portfolio("Portfolio", currency);
+        portfolio.save(database);
 
-        final Dao<Wallet> walletToDelete = new Wallet(currency, currency);
+        final Dao<Wallet> walletToDelete =
+                new Wallet(currency, currency, portfolio);
         walletToDelete.save(database);
 
         final int nWalletsBeforeDeletion = walletToDelete.count(database);
@@ -207,7 +218,7 @@ public class WalletTest
             throws Exception
     {
         // Create a wallet but don't save it to the database.
-        final Dao<Wallet> unsavedWallet = new Wallet("Mistake", 0, 0);
+        final Dao<Wallet> unsavedWallet = new Wallet("Mistake", 0, 0, 0);
 
         final int nWalletsBeforeDeletion = unsavedWallet.count(database);
         unsavedWallet.delete(database);
@@ -227,7 +238,7 @@ public class WalletTest
     @Test
     public void DeleteAll_MethodCall_ZeroRecordsInTable() throws Exception
     {
-        final Dao<Wallet> wallet = new Wallet(0, 0);
+        final Dao<Wallet> wallet = new Wallet(0, 0, 0);
         wallet.deleteAll(database);
 
         final int nWallets = wallet.count(database);
@@ -248,16 +259,25 @@ public class WalletTest
             throws Exception
     {
         final int nWalletsBeforeAdding =
-                new Wallet(0, 0).count(database);
+                new Wallet(0, 0, 0).count(database);
 
-        final Dao<Wallet> wallet1 =
-                new Wallet("P1", new Currency("C1"), new Currency("C1"));
+        final Dao<Wallet> wallet1 = new Wallet(
+                "W1",
+                new Currency("C1"),
+                new Currency("C1"),
+                new Portfolio("P1", new Currency("C1")));
         wallet1.save(database);
-        final Dao<Wallet> wallet2 =
-                new Wallet("P2", new Currency("C2"), new Currency("C2"));
+        final Dao<Wallet> wallet2 = new Wallet(
+                "W2",
+                new Currency("C2"),
+                new Currency("C2"),
+                new Portfolio("P2", new Currency("C3")));
         wallet2.save(database);
-        final Dao<Wallet> wallet3 =
-                new Wallet("P3", new Currency("C3"), new Currency("C3"));
+        final Dao<Wallet> wallet3 = new Wallet(
+                "W3",
+                new Currency("C3"),
+                new Currency("C3"),
+                new Portfolio("P3", new Currency("C3")));
         wallet3.save(database);
 
         final int nWalletsAfterAdding = wallet1.count(database);

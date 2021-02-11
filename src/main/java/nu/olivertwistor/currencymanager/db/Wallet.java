@@ -327,6 +327,11 @@ public class Wallet implements Dao<Wallet>, Serializable
         }
     }
 
+    public int getId()
+    {
+        return this.id;
+    }
+
     @SuppressWarnings("unused")
     public void setName(final String name)
     {
