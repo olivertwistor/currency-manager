@@ -16,7 +16,7 @@ Feel free to contact me through [my GitHub page][1] if you have any questions or
 There are many ways in which you can contribute to this project. Some of them are listed here.
 
 ### Start working on an open issue
-One very practical way in which you can contribute is to take a look at the [list of open and unassigned issues][3] to see if there is anything you want to help out with. For information on the necessary steps for that, please read the section *[How to make changes to the project][4]*.
+One very practical way in which you can contribute is to take a look at the [list of open and unassigned issues][3] to see if there is anything you want to help out with. For information on the necessary steps for that, please read the section [How to make changes to the project][4].
 
 ### Report bugs, propose new features or changes in existing features
 All software has bugs, and I would very much appreciate help with identifying and reporting bugs, so they can be fixed. This is a good way to contribute even if you aren't a programmer yourself.
@@ -27,20 +27,13 @@ All software has bugs, and I would very much appreciate help with identifying an
 1. Provide more details in the *comment* field if the title isn't enough.
 1. If you have repository access, read on. Otherwise, skip to the next step.
     1. Select an *assignee* that should handle the issue. If you're not selecting yourself, you should probably leave this blank.
-    1. Choose the appropriate *labels* (you may choose multiple labels if you want):
-        * for a bug, choose bug
-        * for a documentation related issue, choose documentation
-        * for a feature or general coding, choose enhancement
-        * for core functionality, choose core
-        * for quality of life things, choose polish
-        * for other things not listed here, add more labels as needed by clicking on the cogwheel   
+    1. Choose the appropriate *labels* (you may choose multiple labels if you want).  
      1. Leave *Project* blank.
-    1. Leave *Milestone* blank.
+    1. Leave *Milestone* blank if you're not absolutely certain right now to which future release this issue belongs.
 1. Press the button *Submit new issue*.
 
 ## How to make changes to the project
 [GitHub help][5] is a very good resource on how to fork repositories, collaborate on issues and other things. If you need more help or want to discuss something else, please go to [my GitHub page][1] and contact me through there.
-
 
 [1]: https://github.com/olivertwistor
 [2]: https://github.com/olivertwistor/currency-manager/issues/new
