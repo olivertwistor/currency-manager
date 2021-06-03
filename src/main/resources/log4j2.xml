@@ -20,7 +20,7 @@
     </Appenders>
     <Loggers>
         <!-- avoid duplicated logs with additivity=false -->
-        <Logger name="nu.olivertwistor.currencymanager"
+        <Logger name="nu.olivertwistor.currencymgr"
                 level="debug"
                 additivity="false">
             <!--<AppenderRef ref="LogToRollingRandomAccessFile"/>-->
