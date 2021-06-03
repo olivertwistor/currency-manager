@@ -20,7 +20,7 @@ public final class NewFileAction extends AbstractAction
 
     public NewFileAction(final GUI gui)
     {
-        super("New file...");
+        super("New...");
         this.putValue(SHORT_DESCRIPTION, "Create a new file.");
         this.putValue(MNEMONIC_KEY, KeyEvent.VK_N);
 
@@ -33,6 +33,7 @@ public final class NewFileAction extends AbstractAction
         final JFileChooser fileChooser = new JFileChooser();
         fileChooser.addChoosableFileFilter(new CurrencyFileFilter());
         fileChooser.setAcceptAllFileFilterUsed(true);
+        fileChooser.setDialogTitle("Create a new currency manager file");
 
         final int status = fileChooser.showSaveDialog(this.gui);
         if (status == JFileChooser.APPROVE_OPTION)
