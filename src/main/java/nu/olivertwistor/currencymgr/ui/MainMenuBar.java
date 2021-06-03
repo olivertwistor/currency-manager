@@ -12,9 +12,13 @@ public final class MainMenuBar extends JMenuBar
         final NewFileAction newFileAction = new NewFileAction(gui);
         final JMenuItem newFile = new JMenuItem(newFileAction);
 
+        final LoadFileAction loadFileAction = new LoadFileAction(gui);
+        final JMenuItem loadFile = new JMenuItem(loadFileAction);
+
         final JMenu fileMenu = new JMenu("File");
         fileMenu.setMnemonic(KeyEvent.VK_F);
         fileMenu.add(newFile);
+        fileMenu.add(loadFile);
 
         this.add(fileMenu);
     }

@@ -12,17 +12,17 @@ import java.awt.event.KeyEvent;
 import java.io.File;
 import java.sql.SQLException;
 
-public final class NewFileAction extends AbstractAction
+public final class LoadFileAction extends AbstractAction
 {
     private static final Logger LOG = LogManager.getLogger();
 
     private final GUI gui;
 
-    public NewFileAction(final GUI gui)
+    public LoadFileAction(final GUI gui)
     {
-        super("New...");
-        this.putValue(SHORT_DESCRIPTION, "Create a new file.");
-        this.putValue(MNEMONIC_KEY, KeyEvent.VK_N);
+        super("Load...");
+        this.putValue(SHORT_DESCRIPTION, "Load an existing file.");
+        this.putValue(MNEMONIC_KEY, KeyEvent.VK_L);
 
         this.gui = gui;
     }
@@ -31,31 +31,30 @@ public final class NewFileAction extends AbstractAction
     public void actionPerformed(final ActionEvent e)
     {
         final JFileChooser fileChooser = new JFileChooser();
-        fileChooser.addChoosableFileFilter(new CurrencyFileFilter());
         fileChooser.setAcceptAllFileFilterUsed(true);
-        fileChooser.setDialogTitle("Create a new currency manager file");
+        fileChooser.setDialogTitle("Load a currency manager file");
 
-        final int status = fileChooser.showSaveDialog(this.gui);
+        final int status = fileChooser.showOpenDialog(this.gui);
         if (status == JFileChooser.APPROVE_OPTION)
         {
-            final File createdFile = fileChooser.getSelectedFile();
-            final String fullPath = createdFile.getAbsolutePath();
+            final File loadedFile = fileChooser.getSelectedFile();
+            final String fullPath = loadedFile.getAbsolutePath();
 
             final CurrencyFile currencyFile = new CurrencyFile(fullPath);
             try
             {
-                currencyFile.save();
+                currencyFile.load();
                 this.gui.setCurrencyFile(currencyFile);
             }
             catch (final SQLException exception)
             {
                 JOptionPane.showMessageDialog(
                         this.gui,
-                        "The currency manager file couldn't be saved.",
-                        "Failed to save file",
+                        "The currency manager file couldn't be loaded.",
+                        "Failed to load file",
                         JOptionPane.ERROR_MESSAGE,
                         null);
-                LOG.fatal("Failed to save currency manager file.", exception);
+                LOG.fatal("Failed to load currency manager file.", exception);
             }
         }
     }
