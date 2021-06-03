@@ -21,4 +21,10 @@ public class CurrencyFile
         database.getConnection();
         LOG.error("not yet fully implemented");
     }
+
+    public void load() throws SQLException
+    {
+        database.getConnection();
+        LOG.error("not yet fully implemented");
+    }
 }
