@@ -18,7 +18,7 @@ public class CurrencyFile
 
     public void save() throws SQLException
     {
-        //database.getConnection();
-        LOG.error("not yet implemented");
+        database.getConnection();
+        LOG.error("not yet fully implemented");
     }
 }
