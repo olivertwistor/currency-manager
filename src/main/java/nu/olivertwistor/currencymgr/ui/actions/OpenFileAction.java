@@ -1,28 +1,37 @@
-package nu.olivertwistor.currencymgr.ui;
+package nu.olivertwistor.currencymgr.ui.actions;
 
 import nu.olivertwistor.currencymgr.database.CurrencyFile;
+import nu.olivertwistor.currencymgr.ui.GUI;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import javax.swing.AbstractAction;
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
+import javax.swing.KeyStroke;
 import java.awt.event.ActionEvent;
 import java.awt.event.KeyEvent;
 import java.io.File;
 import java.sql.SQLException;
 
-public final class NewFileAction extends AbstractAction
+/**
+ * Action that fires when the user wants to load a currency file.
+ *
+ *
+ */
+@SuppressWarnings("HardCodedStringLiteral")
+public final class OpenFileAction extends AbstractAction
 {
     private static final Logger LOG = LogManager.getLogger();
 
     private final GUI gui;
 
-    public NewFileAction(final GUI gui)
+    public OpenFileAction(final GUI gui)
     {
-        super("New...");
-        this.putValue(SHORT_DESCRIPTION, "Create a new file.");
-        this.putValue(MNEMONIC_KEY, KeyEvent.VK_N);
+        super("Open...");
+        this.putValue(SHORT_DESCRIPTION, "Open an existing file.");
+        this.putValue(MNEMONIC_KEY, KeyEvent.VK_O);
+        this.putValue(ACCELERATOR_KEY, KeyStroke.getKeyStroke("control O"));
 
         this.gui = gui;
     }
@@ -31,31 +40,30 @@ public final class NewFileAction extends AbstractAction
     public void actionPerformed(final ActionEvent e)
     {
         final JFileChooser fileChooser = new JFileChooser();
-        fileChooser.addChoosableFileFilter(new CurrencyFileFilter());
         fileChooser.setAcceptAllFileFilterUsed(true);
-        fileChooser.setDialogTitle("Create a new currency manager file");
+        fileChooser.setDialogTitle("Open a currency file");
 
-        final int status = fileChooser.showSaveDialog(this.gui);
+        final int status = fileChooser.showOpenDialog(this.gui);
         if (status == JFileChooser.APPROVE_OPTION)
         {
-            final File createdFile = fileChooser.getSelectedFile();
-            final String fullPath = createdFile.getAbsolutePath();
+            final File loadedFile = fileChooser.getSelectedFile();
+            final String fullPath = loadedFile.getAbsolutePath();
 
             final CurrencyFile currencyFile = new CurrencyFile(fullPath);
             try
             {
-                currencyFile.save();
+                currencyFile.load();
                 this.gui.setCurrencyFile(currencyFile);
             }
             catch (final SQLException exception)
             {
                 JOptionPane.showMessageDialog(
                         this.gui,
-                        "The currency manager file couldn't be saved.",
-                        "Failed to save file",
+                        "The currency file couldn't be opened.",
+                        "Failed to open file",
                         JOptionPane.ERROR_MESSAGE,
                         null);
-                LOG.fatal("Failed to save currency manager file.", exception);
+                LOG.fatal("Failed to open currency file.", exception);
             }
         }
     }
