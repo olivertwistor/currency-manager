@@ -17,7 +17,7 @@ import java.sql.SQLException;
 /**
  * Action that fires when the user wants to load a currency file.
  *
- *
+ * @since 0.1.0
  */
 @SuppressWarnings("HardCodedStringLiteral")
 public final class OpenFileAction extends AbstractAction
@@ -26,6 +26,14 @@ public final class OpenFileAction extends AbstractAction
 
     private final GUI gui;
 
+    /**
+     * Creates an open file action. Sets its name, short description, mnemonic
+     * key and accelerator key.
+     *
+     * @param gui the gui of which the open dialog is a parent
+     *
+     * @since 0.1.0
+     */
     public OpenFileAction(final GUI gui)
     {
         super("Open...");
@@ -66,5 +74,14 @@ public final class OpenFileAction extends AbstractAction
                 LOG.fatal("Failed to open currency file.", exception);
             }
         }
+    }
+
+    @SuppressWarnings("PublicMethodWithoutLogging")
+    @Override
+    public String toString()
+    {
+        return "OpenFileAction{" +
+                "gui=" + this.gui +
+                '}';
     }
 }

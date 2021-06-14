@@ -9,14 +9,30 @@ import javax.swing.KeyStroke;
 import java.awt.event.ActionEvent;
 import java.awt.event.KeyEvent;
 
+/**
+ * The save file action is meant to be executed when the user wants to save an
+ * open currency file.
+ *
+ * Currently, the action is not implemented.
+ *
+ * @since 0.1.0
+ */
 @SuppressWarnings({"HardCodedStringLiteral", "ClassOnlyUsedInOnePackage"})
 public final class SaveFileAction extends AbstractAction
 {
     private static final Logger LOG = LogManager.getLogger();
 
-    @SuppressWarnings({"FieldCanBeLocal", "unused"})
+    @SuppressWarnings("unused")
     private final GUI gui;
 
+    /**
+     * Creates a save file action. Sets its name, short description, mnemonic
+     * key and accelerator key.
+     *
+     * @param gui the gui of which the save dialog is a parent
+     *
+     * @since 0.1.0
+     */
     public SaveFileAction(final GUI gui)
     {
         super("Save");
@@ -31,5 +47,14 @@ public final class SaveFileAction extends AbstractAction
     public void actionPerformed(final ActionEvent e)
     {
         LOG.error("not yet implemented");
+    }
+
+    @SuppressWarnings("PublicMethodWithoutLogging")
+    @Override
+    public String toString()
+    {
+        return "SaveFileAction{" +
+                "gui=" + this.gui +
+                '}';
     }
 }

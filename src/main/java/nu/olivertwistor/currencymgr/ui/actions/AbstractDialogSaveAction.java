@@ -69,4 +69,13 @@ abstract class AbstractDialogSaveAction extends AbstractAction
             }
         }
     }
+
+    @SuppressWarnings("PublicMethodWithoutLogging")
+    @Override
+    public String toString()
+    {
+        return "AbstractDialogSaveAction{" +
+                "gui=" + this.gui +
+                '}';
+    }
 }

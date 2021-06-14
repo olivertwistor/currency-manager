@@ -22,7 +22,7 @@ public final class GUI extends JFrame
     private static final int WIDTH = 800;
     private static final int HEIGHT = 600;
 
-    @SuppressWarnings({"FieldCanBeLocal", "unused"})
+    @SuppressWarnings("unused")
     private transient CurrencyFile currencyFile;
 
     /**
@@ -59,5 +59,14 @@ public final class GUI extends JFrame
     public void setCurrencyFile(final CurrencyFile currencyFile)
     {
         this.currencyFile = currencyFile;
+    }
+
+    @SuppressWarnings("PublicMethodWithoutLogging")
+    @Override
+    public String toString()
+    {
+        return "GUI{" +
+                "currencyFile=" + this.currencyFile +
+                '}';
     }
 }

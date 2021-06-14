@@ -54,4 +54,13 @@ class Database
 
         return connection;
     }
+
+    @SuppressWarnings("PublicMethodWithoutLogging")
+    @Override
+    public String toString()
+    {
+        return "Database{" +
+                "dataSource=" + this.dataSource +
+                '}';
+    }
 }

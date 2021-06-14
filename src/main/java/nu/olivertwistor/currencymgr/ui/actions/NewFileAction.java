@@ -19,8 +19,12 @@ public final class NewFileAction extends AbstractDialogSaveAction
     private static final Logger LOG = LogManager.getLogger();
 
     /**
+     * Creates a new file action. Sets its name, short description, mnemonic
+     * key and accelerator key.
      *
-     * @param gui
+     * @param gui the gui of which the save dialog is a parent
+     *
+     * @since 0.1.0
      */
     public NewFileAction(final GUI gui)
     {

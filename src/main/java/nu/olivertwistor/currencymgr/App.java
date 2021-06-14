@@ -33,6 +33,8 @@ final class App
             throws InterruptedException, InvocationTargetException
     {
         SwingUtilities.invokeAndWait(App::createAndShowGUI);
+
+        LOG.info("Started the app.");
     }
 
     /**
@@ -45,7 +47,5 @@ final class App
         final GUI gui = new GUI("Currency Manager");
         gui.attachMainMenuBar();
         gui.setVisible(true);
-
-        LOG.info("Started the app.");
     }
 }

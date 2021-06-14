@@ -58,4 +58,13 @@ public class CurrencyFile
         this.database.getConnection();
         LOG.error("not yet fully implemented");
     }
+
+    @SuppressWarnings("PublicMethodWithoutLogging")
+    @Override
+    public String toString()
+    {
+        return "CurrencyFile{" +
+                "database=" + this.database +
+                '}';
+    }
 }
