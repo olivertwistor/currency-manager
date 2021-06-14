@@ -26,3 +26,5 @@ Issue ID|Description|Importance|Depends upon
 .|*Milestone 1.3.0*
 29|Swedish translation|could
 .|*Milestone 1.4.0*
+35|If the user doesn't explicitly save a new file with an extension, add the standard automatically|could
+.|*Milestone 1.4.1*
