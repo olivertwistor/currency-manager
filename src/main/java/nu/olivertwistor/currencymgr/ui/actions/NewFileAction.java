@@ -1,10 +1,12 @@
 package nu.olivertwistor.currencymgr.ui.actions;
 
+import nu.olivertwistor.currencymgr.ui.ChooseCurrencyDialog;
 import nu.olivertwistor.currencymgr.ui.GUI;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import javax.swing.KeyStroke;
+import java.awt.event.ActionEvent;
 import java.awt.event.KeyEvent;
 
 /**
@@ -35,5 +37,14 @@ public final class NewFileAction extends AbstractDialogSaveAction
         this.putValue(ACCELERATOR_KEY, KeyStroke.getKeyStroke("control N"));
 
         LOG.debug("Created a NewFileAction.");
+    }
+
+    @Override
+    public void actionPerformed(ActionEvent e)
+    {
+        super.actionPerformed(e);
+
+        final ChooseCurrencyDialog dialog = new ChooseCurrencyDialog(this.gui);
+        dialog.setVisible(true);
     }
 }

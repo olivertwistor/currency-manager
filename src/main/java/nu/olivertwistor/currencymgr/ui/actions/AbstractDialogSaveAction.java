@@ -24,7 +24,7 @@ abstract class AbstractDialogSaveAction extends AbstractAction
 {
     private static final Logger LOG = LogManager.getLogger();
 
-    private final GUI gui;
+    protected final GUI gui;
 
     /**
      * Creates a new abstract dialog save action.

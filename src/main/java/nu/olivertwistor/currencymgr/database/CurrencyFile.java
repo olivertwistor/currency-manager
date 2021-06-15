@@ -19,6 +19,7 @@ public class CurrencyFile
     private static final Logger LOG = LogManager.getLogger();
 
     private final Database database;
+    private Currency baseCurrency;
 
     /**
      * Creates a new currency file object by creating a new {@link Database}
@@ -57,6 +58,11 @@ public class CurrencyFile
     {
         this.database.getConnection();
         LOG.error("not yet fully implemented");
+    }
+
+    public void setBaseCurrency(final Currency baseCurrency)
+    {
+        this.baseCurrency = baseCurrency;
     }
 
     @SuppressWarnings("PublicMethodWithoutLogging")

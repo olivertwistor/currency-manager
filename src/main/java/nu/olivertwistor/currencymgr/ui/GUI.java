@@ -56,6 +56,11 @@ public final class GUI extends JFrame
         LOG.debug("Attached a menu bar.");
     }
 
+    public CurrencyFile getCurrencyFile()
+    {
+        return this.currencyFile;
+    }
+
     public void setCurrencyFile(final CurrencyFile currencyFile)
     {
         this.currencyFile = currencyFile;
