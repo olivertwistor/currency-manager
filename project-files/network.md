@@ -12,6 +12,7 @@ Issue ID|Description|Importance|Depends upon
 25|Choose an account|must|23
 26|Create and view transactions|must|24
 27|Choose a currency|must|22
+36|Ask the user to overwrite existing file|must|18
 .|*Milestone 0.2.0*
 30|Calculate average cost|must|23, 24
 33|Calculate profits and losses|must|24, 30
