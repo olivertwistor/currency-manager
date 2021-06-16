@@ -1,4 +1,4 @@
-package nu.olivertwistor.currencymgr.ui;
+package nu.olivertwistor.currencymgr;
 
 import nu.olivertwistor.currencymgr.database.CurrencyFile;
 import org.apache.logging.log4j.LogManager;

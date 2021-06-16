@@ -1,9 +1,9 @@
-package nu.olivertwistor.currencymgr.ui;
+package nu.olivertwistor.currencymgr;
 
-import nu.olivertwistor.currencymgr.ui.actions.NewFileAction;
-import nu.olivertwistor.currencymgr.ui.actions.OpenFileAction;
-import nu.olivertwistor.currencymgr.ui.actions.SaveAsFileAction;
-import nu.olivertwistor.currencymgr.ui.actions.SaveFileAction;
+import nu.olivertwistor.currencymgr.database.NewFileAction;
+import nu.olivertwistor.currencymgr.database.OpenFileAction;
+import nu.olivertwistor.currencymgr.database.SaveAsFileAction;
+import nu.olivertwistor.currencymgr.database.SaveFileAction;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 

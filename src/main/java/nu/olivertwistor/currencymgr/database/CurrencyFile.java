@@ -1,5 +1,6 @@
 package nu.olivertwistor.currencymgr.database;
 
+import nu.olivertwistor.currencymgr.currency.Currency;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 

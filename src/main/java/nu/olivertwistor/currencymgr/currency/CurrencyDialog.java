@@ -1,6 +1,4 @@
-package nu.olivertwistor.currencymgr.ui;
-
-import nu.olivertwistor.currencymgr.database.Currency;
+package nu.olivertwistor.currencymgr.currency;
 
 import javax.swing.JDialog;
 import javax.swing.JFrame;

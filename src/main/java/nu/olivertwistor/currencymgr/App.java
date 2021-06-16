@@ -1,6 +1,5 @@
 package nu.olivertwistor.currencymgr;
 
-import nu.olivertwistor.currencymgr.ui.GUI;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 

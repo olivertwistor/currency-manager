@@ -1,5 +1,6 @@
 package nu.olivertwistor.currencymgr.ui.actions;
 
+import nu.olivertwistor.currencymgr.database.AbstractDialogSaveAction;
 import nu.olivertwistor.currencymgr.ui.GUI;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
