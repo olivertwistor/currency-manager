@@ -1,4 +1,4 @@
-package nu.olivertwistor.currencymgr.database;
+package nu.olivertwistor.currencymgr.currency;
 
 public class Currency
 {

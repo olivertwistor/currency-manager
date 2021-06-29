@@ -1,14 +1,15 @@
-package nu.olivertwistor.currencymgr.ui.actions;
+package nu.olivertwistor.currencymgr.database;
 
-import nu.olivertwistor.currencymgr.database.AbstractDialogSaveAction;
-import nu.olivertwistor.currencymgr.ui.ChooseCurrencyDialog;
-import nu.olivertwistor.currencymgr.ui.GUI;
+import nu.olivertwistor.currencymgr.currency.CurrencyDialog;
+import nu.olivertwistor.currencymgr.GUI;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import javax.swing.JOptionPane;
 import javax.swing.KeyStroke;
 import java.awt.event.ActionEvent;
 import java.awt.event.KeyEvent;
+import java.sql.SQLException;
 
 /**
  * The new file action is meant to be executed when the user wants to create a
@@ -45,7 +46,21 @@ public final class NewFileAction extends AbstractDialogSaveAction
     {
         super.actionPerformed(e);
 
-        final ChooseCurrencyDialog dialog = new ChooseCurrencyDialog(this.gui);
+        final CurrencyDialog dialog = new CurrencyDialog(this.gui);
         dialog.setVisible(true);
+
+        try
+        {
+            this.gui.saveCurrencyFile();
+        }
+        catch (SQLException exception)
+        {
+            JOptionPane.showMessageDialog(
+                    this.gui,
+                    "The file couldn't be saved.",
+                    "Save error",
+                    JOptionPane.ERROR_MESSAGE);
+            LOG.error("Failed to save currency file.", exception);
+        }
     }
 }

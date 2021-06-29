@@ -4,11 +4,11 @@ import javax.swing.JDialog;
 import javax.swing.JFrame;
 import java.util.List;
 
-public class ChooseCurrencyDialog extends JDialog
+public class CurrencyDialog extends JDialog
 {
     private List<Currency> currencies;
 
-    public ChooseCurrencyDialog(final JFrame owner)
+    public CurrencyDialog(final JFrame owner)
     {
         super(owner, "Choose currency", true);
     }

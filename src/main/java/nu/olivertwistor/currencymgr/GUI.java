@@ -7,6 +7,7 @@ import org.apache.logging.log4j.Logger;
 import javax.swing.JFrame;
 import javax.swing.JMenuBar;
 import javax.swing.WindowConstants;
+import java.sql.SQLException;
 
 /**
  * The GUI class is the topmost class responsible for handling the GUI. It
@@ -64,6 +65,18 @@ public final class GUI extends JFrame
     public void setCurrencyFile(final CurrencyFile currencyFile)
     {
         this.currencyFile = currencyFile;
+    }
+
+    public boolean saveCurrencyFile() throws SQLException
+    {
+        if (this.currencyFile != null)
+        {
+            return this.currencyFile.save();
+        }
+
+        LOG.error("Trying to save file before it's been created or " +
+                "opened.");
+        return false;
     }
 
     @SuppressWarnings("PublicMethodWithoutLogging")
