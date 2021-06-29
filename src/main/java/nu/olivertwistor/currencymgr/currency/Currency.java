@@ -1,20 +1,19 @@
 package nu.olivertwistor.currencymgr.currency;
 
-import nu.olivertwistor.currencymgr.database.Database;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-
-import java.sql.SQLException;
 
 public class Currency
 {
     private static final Logger LOG = LogManager.getLogger();
 
+    private int id;
     private final String ticker;
     private String name;
 
     public Currency(final String ticker, final String name)
     {
+        this.id = 0;
         this.ticker = ticker;
         this.name = name;
     }
