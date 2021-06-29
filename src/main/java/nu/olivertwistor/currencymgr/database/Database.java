@@ -17,7 +17,7 @@ import java.sql.SQLException;
  * @since 0.1.0
  */
 @SuppressWarnings("HardCodedStringLiteral")
-class Database
+public class Database
 {
     private static final Logger LOG = LogManager.getLogger();
 
@@ -35,7 +35,7 @@ class Database
      *
      * @since 0.1.0
      */
-    Database(final String filename)
+    public Database(final String filename)
     {
         final SQLiteConfig config = new SQLiteConfig();
         config.setEncoding(SQLiteConfig.Encoding.UTF8);
