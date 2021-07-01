@@ -1,34 +1,49 @@
 package nu.olivertwistor.currencymgr.database;
 
-import java.sql.ResultSet;
+import nu.olivertwistor.currencymgr.util.FileUtils;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+import org.jetbrains.annotations.NonNls;
+
 import java.sql.SQLException;
 import java.sql.Statement;
 
 public final class DatabaseUpgrader
 {
+    @NonNls
+    private static final Logger LOG = LogManager.getLogger();
+
     public static void upgrade(final Database database,
                                final int targetVersion) throws SQLException
     {
-        final int currentVersion = readCurrentVersion(database);
-    }
+        final int currentVersion = database.readCurrentVersion();
 
-    public static int readCurrentVersion(final Database database)
-            throws SQLException
-    {
-        int currentVersion = 0;
+        LOG.info("DB versions current/target: {}/{}", currentVersion,
+                targetVersion);
 
-        final String versionSQL = "SELECT version FROM db_version ORDER BY version DESC LIMIT 1";
-        try (final Statement statement = database.getConnection().createStatement())
+        if (currentVersion >= targetVersion)
         {
-            try (final ResultSet resultSet = statement.executeQuery(versionSQL))
-            {
-                if (resultSet.next())
-                {
-                    currentVersion = resultSet.getInt("version");
-                }
-            }
+            LOG.info("Since current version is the same as or later than " +
+                    "target version, no upgrade is necessary.");
+            return;
         }
 
-        return currentVersion;
+        // If current version is 0, we know that there is no database set up,
+        // so we need to create it.
+        if (currentVersion <= 0)
+        {
+            try (final Statement statement =
+                         database.getConnection().createStatement())
+            {
+                final String createTableDbVersion =
+                        FileUtils.loadResourceToString(
+                                "/db/0/create-table-dbversion.sql",
+                                DatabaseUpgrader.class);
+                //noinspection JDBCExecuteWithNonConstantString
+                statement.executeUpdate(createTableDbVersion);
+            }
+
+            LOG.info("Updated the DB from version 0 to 1");
+        }
     }
 }

@@ -1,12 +1,17 @@
 package nu.olivertwistor.currencymgr.database;
 
+import nu.olivertwistor.currencymgr.util.DateUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.jetbrains.annotations.NonNls;
 import org.sqlite.SQLiteConfig;
 import org.sqlite.SQLiteDataSource;
 
 import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 
 /**
  * The database is where the data storage and retrieval happens, to and from
@@ -45,6 +50,63 @@ public class Database
         this.dataSource.setUrl(url);
 
         LOG.info("Created data source. URL: {}", this.dataSource.getUrl());
+    }
+
+    public int readCurrentVersion() throws SQLException
+    {
+        final Connection connection = this.getConnection();
+
+        // First, check if there even is a db_version table. If not, we have a
+        // new database file.
+        try (final Statement statement = connection.createStatement())
+        {
+            @NonNls
+            final String tableSql = "SELECT tbl_name FROM sqlite_master " +
+                    "WHERE tbl_name = 'db_version'";
+
+            try (final ResultSet resultSet = statement.executeQuery(tableSql))
+            {
+                if (!resultSet.next())
+                {
+                    return 0;
+                }
+            }
+        }
+
+        // Now we now that there is a db_version table. Let's read the latest
+        // version.
+        try (final Statement statement = connection.createStatement())
+        {
+            @NonNls
+            final String versionSql = "SELECT version FROM db_version " +
+                    "ORDER BY version DESC LIMIT 1";
+
+            try (final ResultSet resultSet = statement.executeQuery(versionSql))
+            {
+                if (resultSet.next())
+                {
+                    return resultSet.getInt("version");
+                }
+            }
+        }
+
+        return 0;
+    }
+
+    public void writeCurrentVersion(final int version) throws SQLException
+    {
+        @NonNls
+        final String sql = "INSERT INTO db_version (version, date) VALUES " +
+                "(?, ?)";
+
+        try (final PreparedStatement statement =
+                     this.getConnection().prepareStatement(sql))
+        {
+            statement.setInt(1, version);
+            statement.setString(2, DateUtils.getToday());
+
+            final int nRows = statement.executeUpdate();
+        }
     }
 
     public Connection getConnection() throws SQLException
