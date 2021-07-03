@@ -1,7 +1,8 @@
 package nu.olivertwistor.currencymgr.util;
 
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
+
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 public class FileUtilsTest
 {
@@ -15,7 +16,7 @@ public class FileUtilsTest
     @Test
     public void loadResourceToString_nonexistingResource_throwsException()
     {
-        Assertions.assertThrows(NullPointerException.class, () ->
+        assertThrows(NullPointerException.class, () ->
                 FileUtils.loadResourceToString("this-path-doesnt-exist",
                         FileUtilsTest.class));
     }

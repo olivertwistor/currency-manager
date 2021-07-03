@@ -32,18 +32,28 @@ public final class DatabaseUpgrader
         // so we need to create it.
         if (currentVersion <= 0)
         {
-            try (final Statement statement =
-                         database.getConnection().createStatement())
-            {
-                final String createTableDbVersion =
-                        FileUtils.loadResourceToString(
-                                "/db/0/create-table-dbversion.sql",
-                                DatabaseUpgrader.class);
-                //noinspection JDBCExecuteWithNonConstantString
-                statement.executeUpdate(createTableDbVersion);
-            }
+            executeUpdateFromResStream(database,
+                    "/db/0/create-table-dbversion.sql");
+            executeUpdateFromResStream(database,
+                    "/db/0/create-index-dbversion-version.sql");
+            executeUpdateFromResStream(database,
+                    "/db/0/create-table-currency.sql");
 
             LOG.info("Updated the DB from version 0 to 1");
+        }
+    }
+
+    @SuppressWarnings("JDBCExecuteWithNonConstantString")
+    private static void executeUpdateFromResStream(final Database database,
+                                                   @NonNls final String stream)
+            throws SQLException
+    {
+        try (final Statement statement =
+                     database.getConnection().createStatement())
+        {
+            final String sqlString = FileUtils.loadResourceToString(
+                    stream, DatabaseUpgrader.class);
+            statement.executeUpdate(sqlString);
         }
     }
 }
