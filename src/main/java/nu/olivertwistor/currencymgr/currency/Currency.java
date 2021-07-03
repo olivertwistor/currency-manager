@@ -10,6 +10,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.NoSuchElementException;
 
 public class Currency
 {
@@ -73,11 +74,11 @@ public class Currency
                 final int nRows = statement.executeUpdate();
                 if (nRows > 0)
                 {
-                    LOG.info("Updated the record in the database.");
+                    LOG.info("Updated {} in the database.", this);
                     return true;
                 }
 
-                LOG.error("Failed to update the record in the database.");
+                LOG.error("Failed to update {} in the database.", this);
             }
 
             return false;
@@ -97,11 +98,11 @@ public class Currency
             final int nRows = insertStatement.executeUpdate();
             if (nRows > 0)
             {
-                LOG.info("Inserted a new record to the database.");
+                LOG.info("Inserted {} to the database.", this);
             }
             else
             {
-                LOG.error("Failed to insert a new record to the database.");
+                LOG.error("Failed to insert {} to the database.", this);
             }
 
             // Now when we have made an INSERT, we can retrieve the last
@@ -117,14 +118,59 @@ public class Currency
                     if (resultSet.next())
                     {
                         this.id = resultSet.getInt("id");
-                        LOG.debug("The new record got ID #{}.", this.id);
+                        LOG.debug("{} received a new ID.", this);
 
                         return true;
                     }
+
+                    LOG.error("Failed to receive a new ID -- \"SELECT " +
+                            "last_insert_rowid() AS id\".");
                 }
             }
         }
 
         return false;
+    }
+
+    public static Currency load(final Database database, final int id)
+            throws SQLException
+    {
+        @NonNls
+        final String selectSql =
+                "SELECT ticker, name FROM currency WHERE id = ?";
+
+        try (final PreparedStatement statement =
+                     database.getConnection().prepareStatement(selectSql))
+        {
+            statement.setInt(1, id);
+
+            try (final ResultSet resultSet = statement.executeQuery())
+            {
+                if (resultSet.next())
+                {
+                    final String ticker = resultSet.getString("ticker");
+                    final String name = resultSet.getString("name");
+
+                    final Currency currency = new Currency(ticker, name);
+                    currency.id = id;
+
+                    LOG.info("Loaded {} from the database.", currency);
+                    return currency;
+                }
+
+                throw new NoSuchElementException(
+                        "No database record with ID " + id + " was found.");
+            }
+        }
+    }
+
+    @Override
+    public String toString()
+    {
+        return "Currency{" +
+                "id=" + this.id +
+                ", ticker='" + this.ticker + '\'' +
+                ", name='" + this.name + '\'' +
+                '}';
     }
 }

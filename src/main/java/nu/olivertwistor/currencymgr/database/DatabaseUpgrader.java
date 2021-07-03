@@ -18,8 +18,8 @@ public final class DatabaseUpgrader
     {
         final int currentVersion = database.readCurrentVersion();
 
-        LOG.info("DB versions current/target: {}/{}", currentVersion,
-                targetVersion);
+        LOG.info("The current database version is {}, and the target version " +
+                "is {}.", currentVersion, targetVersion);
 
         if (currentVersion >= targetVersion)
         {
@@ -39,7 +39,8 @@ public final class DatabaseUpgrader
             executeUpdateFromResStream(database,
                     "/db/0/create-table-currency.sql");
 
-            LOG.info("Updated the DB from version 0 to 1");
+            database.writeCurrentVersion(1);
+            LOG.info("Updated the database from version 0 to 1.");
         }
     }
 

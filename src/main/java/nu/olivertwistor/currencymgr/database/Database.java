@@ -49,7 +49,7 @@ public class Database
         final String url = String.format("jdbc:sqlite:%s", filename);
         this.dataSource.setUrl(url);
 
-        LOG.info("Created data source. URL: {}", this.dataSource.getUrl());
+        LOG.info("Created data source: {}", this.dataSource.getUrl());
     }
 
     public int readCurrentVersion() throws SQLException
@@ -112,7 +112,6 @@ public class Database
     public Connection getConnection() throws SQLException
     {
         final Connection connection = this.dataSource.getConnection();
-        LOG.debug("Retrieved a connection from the data source.");
 
         return connection;
     }
