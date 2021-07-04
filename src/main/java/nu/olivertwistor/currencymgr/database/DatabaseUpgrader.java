@@ -3,14 +3,12 @@ package nu.olivertwistor.currencymgr.database;
 import nu.olivertwistor.currencymgr.util.FileUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.jetbrains.annotations.NonNls;
 
 import java.sql.SQLException;
 import java.sql.Statement;
 
 public final class DatabaseUpgrader
 {
-    @NonNls
     private static final Logger LOG = LogManager.getLogger();
 
     public static void upgrade(final Database database,
@@ -46,7 +44,7 @@ public final class DatabaseUpgrader
 
     @SuppressWarnings("JDBCExecuteWithNonConstantString")
     private static void executeUpdateFromResStream(final Database database,
-                                                   @NonNls final String stream)
+                                                   final String stream)
             throws SQLException
     {
         try (final Statement statement =

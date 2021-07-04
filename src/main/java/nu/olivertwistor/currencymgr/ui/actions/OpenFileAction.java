@@ -19,7 +19,7 @@ import java.sql.SQLException;
  *
  * @since 0.1.0
  */
-@SuppressWarnings("HardCodedStringLiteral")
+@SuppressWarnings("HardCodedStringLiteral") //todo make translatable
 public final class OpenFileAction extends AbstractAction
 {
     private static final Logger LOG = LogManager.getLogger();
@@ -76,7 +76,6 @@ public final class OpenFileAction extends AbstractAction
         }
     }
 
-    @SuppressWarnings("PublicMethodWithoutLogging")
     @Override
     public String toString()
     {

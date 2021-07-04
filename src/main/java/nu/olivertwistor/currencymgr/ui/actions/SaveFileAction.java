@@ -17,12 +17,11 @@ import java.awt.event.KeyEvent;
  *
  * @since 0.1.0
  */
-@SuppressWarnings({"HardCodedStringLiteral", "ClassOnlyUsedInOnePackage"})
+@SuppressWarnings("HardCodedStringLiteral") //todo make translatable
 public final class SaveFileAction extends AbstractAction
 {
     private static final Logger LOG = LogManager.getLogger();
 
-    @SuppressWarnings("unused")
     private final GUI gui;
 
     /**
@@ -49,7 +48,6 @@ public final class SaveFileAction extends AbstractAction
         LOG.error("not yet implemented");
     }
 
-    @SuppressWarnings("PublicMethodWithoutLogging")
     @Override
     public String toString()
     {

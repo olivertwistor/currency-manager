@@ -19,7 +19,7 @@ import java.sql.SQLException;
  *
  * @since 0.1.0
  */
-@SuppressWarnings("HardCodedStringLiteral")
+@SuppressWarnings("HardCodedStringLiteral") //todo make translatable
 abstract class AbstractDialogSaveAction extends AbstractAction
 {
     private static final Logger LOG = LogManager.getLogger();
@@ -70,7 +70,6 @@ abstract class AbstractDialogSaveAction extends AbstractAction
         }
     }
 
-    @SuppressWarnings("PublicMethodWithoutLogging")
     @Override
     public String toString()
     {

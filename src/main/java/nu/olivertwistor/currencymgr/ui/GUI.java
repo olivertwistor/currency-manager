@@ -14,7 +14,7 @@ import javax.swing.WindowConstants;
  *
  * @since 0.1.0
  */
-@SuppressWarnings("HardCodedStringLiteral")
+@SuppressWarnings("HardCodedStringLiteral") //todo make translatable
 public final class GUI extends JFrame
 {
     private static final Logger LOG = LogManager.getLogger();
@@ -22,7 +22,6 @@ public final class GUI extends JFrame
     private static final int WIDTH = 800;
     private static final int HEIGHT = 600;
 
-    @SuppressWarnings("unused")
     private transient CurrencyFile currencyFile;
 
     /**
@@ -61,7 +60,6 @@ public final class GUI extends JFrame
         this.currencyFile = currencyFile;
     }
 
-    @SuppressWarnings("PublicMethodWithoutLogging")
     @Override
     public String toString()
     {

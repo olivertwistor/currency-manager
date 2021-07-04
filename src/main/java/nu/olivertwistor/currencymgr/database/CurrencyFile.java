@@ -13,7 +13,6 @@ import java.sql.SQLException;
  *
  * @since 0.1.0
  */
-@SuppressWarnings("HardCodedStringLiteral")
 public class CurrencyFile
 {
     private static final Logger LOG = LogManager.getLogger();
@@ -59,7 +58,6 @@ public class CurrencyFile
         LOG.error("not yet fully implemented");
     }
 
-    @SuppressWarnings("PublicMethodWithoutLogging")
     @Override
     public String toString()
     {

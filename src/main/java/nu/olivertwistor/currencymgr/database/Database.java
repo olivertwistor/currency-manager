@@ -3,7 +3,6 @@ package nu.olivertwistor.currencymgr.database;
 import nu.olivertwistor.currencymgr.util.DateUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.jetbrains.annotations.NonNls;
 import org.sqlite.SQLiteConfig;
 import org.sqlite.SQLiteDataSource;
 
@@ -21,7 +20,6 @@ import java.sql.Statement;
  *
  * @since 0.1.0
  */
-@SuppressWarnings("HardCodedStringLiteral")
 public class Database
 {
     private static final Logger LOG = LogManager.getLogger();
@@ -60,11 +58,9 @@ public class Database
         // new database file.
         try (final Statement statement = connection.createStatement())
         {
-            @NonNls
-            final String tableSql = "SELECT tbl_name FROM sqlite_master " +
-                    "WHERE tbl_name = 'db_version'";
-
-            try (final ResultSet resultSet = statement.executeQuery(tableSql))
+            try (final ResultSet resultSet = statement.executeQuery(
+                    "SELECT tbl_name FROM sqlite_master WHERE tbl_name = " +
+                            "'db_version'"))
             {
                 if (!resultSet.next())
                 {
@@ -77,11 +73,9 @@ public class Database
         // version.
         try (final Statement statement = connection.createStatement())
         {
-            @NonNls
-            final String versionSql = "SELECT version FROM db_version " +
-                    "ORDER BY version DESC LIMIT 1";
-
-            try (final ResultSet resultSet = statement.executeQuery(versionSql))
+            try (final ResultSet resultSet = statement.executeQuery(
+                    "SELECT version FROM db_version ORDER BY version DESC " +
+                            "LIMIT 1"))
             {
                 if (resultSet.next())
                 {
@@ -95,12 +89,10 @@ public class Database
 
     public void writeCurrentVersion(final int version) throws SQLException
     {
-        @NonNls
-        final String sql = "INSERT INTO db_version (version, date) VALUES " +
-                "(?, ?)";
-
         try (final PreparedStatement statement =
-                     this.getConnection().prepareStatement(sql))
+                     this.getConnection().prepareStatement(
+                             "INSERT INTO db_version (version, date) VALUES " +
+                             "(?, ?)"))
         {
             statement.setInt(1, version);
             statement.setString(2, DateUtils.getToday());
@@ -116,7 +108,6 @@ public class Database
         return connection;
     }
 
-    @SuppressWarnings("PublicMethodWithoutLogging")
     @Override
     public String toString()
     {

@@ -14,7 +14,7 @@ import java.awt.event.KeyEvent;
  *
  * @since 0.1.0
  */
-@SuppressWarnings("HardCodedStringLiteral")
+@SuppressWarnings("HardCodedStringLiteral") //todo make translatable
 public final class SaveAsFileAction extends AbstractDialogSaveAction
 {
     private static final Logger LOG = LogManager.getLogger();

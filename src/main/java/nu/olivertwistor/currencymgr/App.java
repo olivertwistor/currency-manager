@@ -13,7 +13,7 @@ import java.lang.reflect.InvocationTargetException;
  *
  * @since 0.1.0
  */
-@SuppressWarnings({"HardCodedStringLiteral", "ClassOnlyUsedInOnePackage"})
+@SuppressWarnings("HardCodedStringLiteral") //todo make translatable
 final class App
 {
     private static final Logger LOG = LogManager.getLogger();

@@ -1,7 +1,6 @@
 -------------------------------------------------------------------------------
 Apache License 2.0 license for:
 * Inject Resources by Alexei Klenin
-* Java Annotations by JetBrains
 * Log4j2 by The Apache Software Foundation
 * SQLite JDBC by Taro L. Saito
 -------------------------------------------------------------------------------

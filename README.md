@@ -17,7 +17,6 @@ More info will come with the first release.
 ### Third-party libraries
 * Apache License 2.0
     * [Inject Resources](https://github.com/hosuaby/inject-resources) by Alexei Klenin
-    * [Java Annotations](https://github.com/JetBrains/java-annotations) by JetBrains
     * [Log4j2](https://logging.apache.org/log4j/2.x/index.html) by The Apache Software Foundation
     * [SQLite JDBC](https://github.com/xerial/sqlite-jdbc) by Taro L. Saito
 * 3-clause BSD license

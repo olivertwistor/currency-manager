@@ -17,7 +17,7 @@ import java.awt.event.KeyEvent;
  *
  * @since 0.1.0
  */
-@SuppressWarnings("HardCodedStringLiteral")
+@SuppressWarnings("HardCodedStringLiteral") //todo make translatable
 final class MainMenuBar extends JMenuBar
 {
     private static final Logger LOG = LogManager.getLogger();

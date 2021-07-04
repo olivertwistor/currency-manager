@@ -3,7 +3,6 @@ package nu.olivertwistor.currencymgr.currency;
 import nu.olivertwistor.currencymgr.database.Database;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.jetbrains.annotations.NonNls;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -43,7 +42,6 @@ public class Currency
 
         // First, we have to determine whether this object already exist in the
         // database.
-        @NonNls
         final String existsInDbSql = "SELECT id FROM currency WHERE id = ?";
 
         boolean existsInDb;
@@ -60,7 +58,6 @@ public class Currency
         if (existsInDb)
         {
             // The object already exist. We have to do an UPDATE.
-            @NonNls
             final String updateSql =
                     "UPDATE currency SET ticker = ?, name = ? WHERE id = ?";
 
@@ -85,7 +82,6 @@ public class Currency
         }
 
         // The object doesn't exist. We will do an INSERT.
-        @NonNls
         final String insertSql =
                 "INSERT INTO currency (ticker, name) VALUES (?, ?)";
 
@@ -109,7 +105,6 @@ public class Currency
             // inserted row ID.
             try (final Statement selectStatement = connection.createStatement())
             {
-                @NonNls
                 final String selectSql = "SELECT last_insert_rowid() AS id";
 
                 try (final ResultSet resultSet =
@@ -135,7 +130,6 @@ public class Currency
     public static Currency load(final Database database, final int id)
             throws SQLException
     {
-        @NonNls
         final String selectSql =
                 "SELECT ticker, name FROM currency WHERE id = ?";
 
