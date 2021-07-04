@@ -1,6 +1,5 @@
 package nu.olivertwistor.currencymgr.database;
 
-import nu.olivertwistor.currencymgr.util.DateUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.sqlite.SQLiteConfig;
@@ -11,6 +10,8 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 
 /**
  * The database is where the data storage and retrieval happens, to and from
@@ -95,7 +96,7 @@ public class Database
                              "(?, ?)"))
         {
             statement.setInt(1, version);
-            statement.setString(2, DateUtils.getToday());
+            statement.setString(2, getToday());
 
             final int nRows = statement.executeUpdate();
             if (nRows > 0)
@@ -115,6 +116,22 @@ public class Database
         final Connection connection = this.dataSource.getConnection();
 
         return connection;
+    }
+
+    private static String getDate(final LocalDate date)
+    {
+        final DateTimeFormatter formatter = DateTimeFormatter.ISO_LOCAL_DATE;
+        final String dateString = date.format(formatter);
+
+        LOG.debug("Formatted {} using {}, resulting in {}.",
+                date, formatter, dateString);
+
+        return dateString;
+    }
+
+    private static String getToday()
+    {
+        return getDate(LocalDate.now());
     }
 
     @Override
