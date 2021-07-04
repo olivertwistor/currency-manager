@@ -11,6 +11,7 @@ public final class DatabaseUpgrader
 {
     private static final Logger LOG = LogManager.getLogger();
 
+    @SuppressWarnings("StaticMethodOnlyUsedInOneClass")
     public static void upgrade(final Database database,
                                final int targetVersion) throws SQLException
     {
@@ -31,11 +32,11 @@ public final class DatabaseUpgrader
         if (currentVersion <= 0)
         {
             executeUpdateFromResStream(database,
-                    "/db/0/create-table-dbversion.sql");
+                    "/db/0/create-table-dbversion.sql"); //NON-NLS
             executeUpdateFromResStream(database,
-                    "/db/0/create-index-dbversion-version.sql");
+                    "/db/0/create-index-dbversion-version.sql"); //NON-NLS
             executeUpdateFromResStream(database,
-                    "/db/0/create-table-currency.sql");
+                    "/db/0/create-table-currency.sql"); //NON-NLS
 
             database.writeCurrentVersion(1);
             LOG.info("Updated the database from version 0 to 1.");
@@ -54,5 +55,10 @@ public final class DatabaseUpgrader
                     stream, DatabaseUpgrader.class);
             statement.executeUpdate(sqlString);
         }
+    }
+
+    private DatabaseUpgrader()
+    {
+        // Just for preventing instantiation.
     }
 }

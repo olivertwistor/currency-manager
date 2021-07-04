@@ -11,6 +11,14 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.NoSuchElementException;
 
+/**
+ * This class defines a currency object. It has a ticker (EUR, SEK, USD, GBP,
+ * BTC etc.), and a name (Euro, Svensk krona, US Dollar etc.). The name is
+ * optional. Instances of this class may be saved to the database (either
+ * inserted or updated), as well as be loaded from the database.
+ *
+ * @since //todo correct version
+ */
 public class Currency
 {
     private static final Logger LOG = LogManager.getLogger();
@@ -19,6 +27,14 @@ public class Currency
     private final String ticker;
     private String name;
 
+    /**
+     * Creates a new instance of this class.
+     *
+     * @param ticker name of the ticker (EUR, SEK, USD etc.)
+     * @param name   longer name of this currency (Euro, Svensk krona etc.)
+     *
+     * @since //todo correct version
+     */
     public Currency(final String ticker, final String name)
     {
         this.id = 0;
@@ -31,6 +47,20 @@ public class Currency
         this.name = name;
     }
 
+    /**
+     * Saves this currency to the database. If it doesn't exist, it will be
+     * inserted. If it does exist, the existing representation in the database
+     * will instead be updated.
+     *
+     * @param database to where this currency should be saved
+     *
+     * @return Whether the operation succeeded.
+     *
+     * @throws SQLException if anything went wrong when communicating with the
+     *                      database.
+     *
+     * @since //todo correct version
+     */
     public boolean save(final Database database) throws SQLException
     {
         final Connection connection = database.getConnection();
@@ -122,6 +152,21 @@ public class Currency
         return false;
     }
 
+    /**
+     * Loads the representation of a currency from the database, and recreates
+     * it as a new currency object.
+     *
+     * @param database from where this currency should be loaded
+     * @param id       row ID the representation of the currency to load has
+     *
+     * @return A new currency object based on the loaded representation from
+     *         the database.
+     *
+     * @throws SQLException if anything went wrong when communicating with the
+     *                      database.
+     *
+     * @since //todo correct version
+     */
     public static Currency load(final Database database, final int id)
             throws SQLException
     {
