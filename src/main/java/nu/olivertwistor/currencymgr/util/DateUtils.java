@@ -5,7 +5,7 @@ import java.time.format.DateTimeFormatter;
 
 public final class DateUtils
 {
-    public static String getDate(final LocalDate date)
+    private static String getDate(final LocalDate date)
     {
         return date.format(DateTimeFormatter.ISO_LOCAL_DATE);
     }

@@ -26,11 +26,6 @@ public class Currency
         this.name = name;
     }
 
-    public Currency(final String ticker)
-    {
-        this(ticker, "");
-    }
-
     public void setName(final String name)
     {
         this.name = name;
@@ -44,7 +39,7 @@ public class Currency
         // database.
         final String existsInDbSql = "SELECT id FROM currency WHERE id = ?";
 
-        boolean existsInDb;
+        final boolean existsInDb;
         try (final PreparedStatement statement =
                      connection.prepareStatement(existsInDbSql))
         {

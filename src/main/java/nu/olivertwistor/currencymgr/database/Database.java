@@ -98,6 +98,15 @@ public class Database
             statement.setString(2, DateUtils.getToday());
 
             final int nRows = statement.executeUpdate();
+            if (nRows > 0)
+            {
+                LOG.info("Inserted a new database version: {}", version);
+            }
+            else
+            {
+                LOG.error("Failed to insert a new database version: {}",
+                        version);
+            }
         }
     }
 
