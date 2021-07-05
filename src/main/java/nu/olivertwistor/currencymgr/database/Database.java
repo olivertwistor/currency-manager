@@ -125,6 +125,7 @@ public class Database
      *
      * @since //todo correct version
      */
+    @SuppressWarnings("WeakerAccess")
     public Connection getConnection(final boolean createNew) throws SQLException
     {
         if (createNew)
@@ -156,6 +157,16 @@ public class Database
         return this.getConnection(false);
     }
 
+    /**
+     * Returns a {@link LocalDate} object as a string, formatted as yyyy-MM-dd,
+     * for example 2021-07-05.
+     *
+     * @param date the LocalDate to return as a string
+     *
+     * @return The provided LocalDate as a ISO date formatted string.
+     *
+     * @since //todo correct version
+     */
     private static String getDate(final LocalDate date)
     {
         final DateTimeFormatter formatter = DateTimeFormatter.ISO_LOCAL_DATE;
