@@ -6,7 +6,6 @@ import org.sqlite.SQLiteConfig;
 import org.sqlite.SQLiteDataSource;
 
 import java.sql.Connection;
-import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -26,6 +25,7 @@ public class Database
     private static final Logger LOG = LogManager.getLogger();
 
     private final SQLiteDataSource dataSource;
+    private Connection connection;
 
     /**
      * Creates a new database object from a specified filename. A data source
@@ -51,6 +51,22 @@ public class Database
         LOG.info("Created data source: {}", this.dataSource.getUrl());
     }
 
+    /**
+     * Gets the current version of the database.
+     *
+     * Whenever the database is upgraded through
+     * {@link DatabaseUpgrader#upgrade(Database, int)}, a new version number is
+     * stored in the database. It's that number that is retrieved by this
+     * method.
+     *
+     * @return The version number; or 0 if either the database is new, or the
+     *         table where the version history is stored doesn't exist.
+     *
+     * @throws SQLException if something went wrong while communicating with
+     *                      the database.
+     *
+     * @since //todo correct version
+     */
     public int readCurrentVersion() throws SQLException
     {
         final Connection connection = this.getConnection();
@@ -88,34 +104,56 @@ public class Database
         return 0;
     }
 
-    public void writeCurrentVersion(final int version) throws SQLException
+    /**
+     * Gets a connection to the database. If any of the following is true, a
+     * new connection will be established before this method returns.
+     * Otherwise, the existing connection will be returned.
+     *
+     * <ul>
+     *     <li>the createNew parameter is true</li>
+     *     <li>there is no existing connection</li>
+     *     <li>the connection is invalid</li>
+     * </ul>
+     *
+     * @param createNew whether a new connection should be established,
+     *                  regardless of whether there already is one
+     *
+     * @return A connection to the database.
+     *
+     * @throws SQLException if something went wrong while communicating with
+     *                      the database.
+     *
+     * @since //todo correct version
+     */
+    public Connection getConnection(final boolean createNew) throws SQLException
     {
-        try (final PreparedStatement statement =
-                     this.getConnection().prepareStatement(
-                             "INSERT INTO db_version (version, date) VALUES " +
-                             "(?, ?)"))
+        if (createNew)
         {
-            statement.setInt(1, version);
-            statement.setString(2, getToday());
-
-            final int nRows = statement.executeUpdate();
-            if (nRows > 0)
-            {
-                LOG.info("Inserted a new database version: {}", version);
-            }
-            else
-            {
-                LOG.error("Failed to insert a new database version: {}",
-                        version);
-            }
+            this.connection = this.dataSource.getConnection();
         }
+        else if ((this.connection == null) || !this.connection.isValid(0))
+        {
+            this.connection = this.dataSource.getConnection();
+        }
+
+        return this.connection;
     }
 
+    /**
+     * Gets an already established connection to the database. If there is none
+     * or if it's invalid, a new connection will be created before this method
+     * returns.
+     *
+     * @return A connection to the database.
+     *
+     * @throws SQLException if something went wrong while communicating with
+     *                      the database.
+     *
+     * @since //todo correct version
+     */
     public Connection getConnection() throws SQLException
     {
-        final Connection connection = this.dataSource.getConnection();
-
-        return connection;
+        return this.getConnection(false);
     }
 
     private static String getDate(final LocalDate date)
@@ -129,7 +167,7 @@ public class Database
         return dateString;
     }
 
-    private static String getToday()
+    static String getToday()
     {
         return getDate(LocalDate.now());
     }

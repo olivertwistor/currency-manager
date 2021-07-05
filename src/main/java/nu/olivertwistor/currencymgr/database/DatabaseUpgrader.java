@@ -4,6 +4,8 @@ import nu.olivertwistor.currencymgr.util.FileUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.sql.Statement;
 
@@ -38,8 +40,31 @@ public final class DatabaseUpgrader
             executeUpdateFromResStream(database,
                     "/db/0/create-table-currency.sql"); //NON-NLS
 
-            database.writeCurrentVersion(1);
+            writeCurrentVersion(database.getConnection(), 1);
             LOG.info("Updated the database from version 0 to 1.");
+        }
+    }
+
+    private static boolean writeCurrentVersion(final Connection connection,
+                                               final int version)
+            throws SQLException
+    {
+        try (final PreparedStatement statement = connection.prepareStatement(
+                "INSERT INTO db_version (version, date) VALUES (?, ?)"))
+        {
+            statement.setInt(1, version);
+            statement.setString(2, Database.getToday());
+
+            final int nRows = statement.executeUpdate();
+            if (nRows > 0)
+            {
+                LOG.info("Inserted a new database version: {}", version);
+                return true;
+            }
+
+            LOG.error("Failed to insert a new database version: {}",
+                    version);
+            return false;
         }
     }
 
