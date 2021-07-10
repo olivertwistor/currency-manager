@@ -15,7 +15,13 @@ More info will come with the first release.
 *Currency Manager* is licensed under the Apache Public License 2.0. You can read the full license terms in the file [LICENSE](LICENSE).
 
 ### Third-party libraries
-* [Log4j2](https://logging.apache.org/log4j/2.x/index.html) by The Apache Software Foundation
-* [SQLite JDBC](https://github.com/xerial/sqlite-jdbc) by Taro L. Saito
+* Apache License 2.0
+    * [Inject Resources](https://github.com/hosuaby/inject-resources) by Alexei Klenin
+    * [Log4j2](https://logging.apache.org/log4j/2.x/index.html) by The Apache Software Foundation
+    * [SQLite JDBC](https://github.com/xerial/sqlite-jdbc) by Taro L. Saito
+* 3-clause BSD license
+    * [Hamcrest](http://hamcrest.org/JavaHamcrest/)
+* Eclipse Public License 2.0
+    * [JUnit 5](https://junit.org/junit5/)
 
 All third-party licenses can be read in [3rd-party-licenses.txt](3rd-party-licenses.txt).

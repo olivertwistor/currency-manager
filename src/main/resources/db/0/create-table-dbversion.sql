@@ -1,0 +1,6 @@
+CREATE TABLE IF NOT EXISTS db_version
+(
+    id      INTEGER PRIMARY KEY,
+    version INTEGER UNIQUE NOT NULL,
+    date    TEXT    DEFAULT NULL
+);

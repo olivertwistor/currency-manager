@@ -1,40 +1,46 @@
-package nu.olivertwistor.currencymgr.ui.actions;
+package nu.olivertwistor.currencymgr.actions;
 
+import nu.olivertwistor.currencymgr.GUI;
 import nu.olivertwistor.currencymgr.database.CurrencyFile;
-import nu.olivertwistor.currencymgr.ui.GUI;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import javax.swing.AbstractAction;
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
+import javax.swing.KeyStroke;
 import java.awt.event.ActionEvent;
+import java.awt.event.KeyEvent;
 import java.io.File;
 import java.sql.SQLException;
 
 /**
- * This abstract class provides a common {@link #actionPerformed(ActionEvent)}
- * where a save dialog opens. It doesn't set any of the usual
- * {@link AbstractAction} values, such as name, description, icon and mnemonic.
+ * Action that fires when the user wants to load a currency file.
  *
  * @since 0.1.0
  */
-@SuppressWarnings("HardCodedStringLiteral")
-abstract class AbstractDialogSaveAction extends AbstractAction
+@SuppressWarnings("HardCodedStringLiteral") //todo make translatable
+public final class OpenFileAction extends AbstractAction
 {
     private static final Logger LOG = LogManager.getLogger();
 
     private final GUI gui;
 
     /**
-     * Creates a new abstract dialog save action.
+     * Creates an open file action. Sets its name, short description, mnemonic
+     * key and accelerator key.
      *
-     * @param gui the gui of which the save dialog is a parent
+     * @param gui the gui of which the open dialog is a parent
      *
      * @since 0.1.0
      */
-    AbstractDialogSaveAction(final GUI gui)
+    public OpenFileAction(final GUI gui)
     {
+        super("Open...");
+        this.putValue(SHORT_DESCRIPTION, "Open an existing file.");
+        this.putValue(MNEMONIC_KEY, KeyEvent.VK_O);
+        this.putValue(ACCELERATOR_KEY, KeyStroke.getKeyStroke("control O"));
+
         this.gui = gui;
     }
 
@@ -43,29 +49,29 @@ abstract class AbstractDialogSaveAction extends AbstractAction
     {
         final JFileChooser fileChooser = new JFileChooser();
         fileChooser.setAcceptAllFileFilterUsed(true);
-        fileChooser.setDialogTitle("Save currency file");
+        fileChooser.setDialogTitle("Open a currency file");
 
-        final int status = fileChooser.showSaveDialog(this.gui);
+        final int status = fileChooser.showOpenDialog(this.gui);
         if (status == JFileChooser.APPROVE_OPTION)
         {
-            final File createdFile = fileChooser.getSelectedFile();
-            final String fullPath = createdFile.getAbsolutePath();
+            final File loadedFile = fileChooser.getSelectedFile();
+            final String fullPath = loadedFile.getAbsolutePath();
 
             final CurrencyFile currencyFile = new CurrencyFile(fullPath);
             try
             {
-                currencyFile.save();
+                currencyFile.load();
                 this.gui.setCurrencyFile(currencyFile);
             }
             catch (final SQLException exception)
             {
                 JOptionPane.showMessageDialog(
                         this.gui,
-                        "The currency file couldn't be saved.",
-                        "Failed to save file",
+                        "The currency file couldn't be opened.",
+                        "Failed to open file",
                         JOptionPane.ERROR_MESSAGE,
                         null);
-                LOG.fatal("Failed to save currency file.", exception);
+                LOG.fatal("Failed to open currency file.", exception);
             }
         }
     }
@@ -74,7 +80,7 @@ abstract class AbstractDialogSaveAction extends AbstractAction
     @Override
     public String toString()
     {
-        return "AbstractDialogSaveAction{" +
+        return "OpenFileAction{" +
                 "gui=" + this.gui +
                 '}';
     }

@@ -13,7 +13,6 @@ import java.sql.SQLException;
  *
  * @since 0.1.0
  */
-@SuppressWarnings("HardCodedStringLiteral")
 public class CurrencyFile
 {
     private static final Logger LOG = LogManager.getLogger();

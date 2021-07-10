@@ -1,9 +1,9 @@
-package nu.olivertwistor.currencymgr.ui;
+package nu.olivertwistor.currencymgr;
 
-import nu.olivertwistor.currencymgr.ui.actions.NewFileAction;
-import nu.olivertwistor.currencymgr.ui.actions.OpenFileAction;
-import nu.olivertwistor.currencymgr.ui.actions.SaveAsFileAction;
-import nu.olivertwistor.currencymgr.ui.actions.SaveFileAction;
+import nu.olivertwistor.currencymgr.actions.NewFileAction;
+import nu.olivertwistor.currencymgr.actions.OpenFileAction;
+import nu.olivertwistor.currencymgr.actions.SaveAsFileAction;
+import nu.olivertwistor.currencymgr.actions.SaveFileAction;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -17,7 +17,7 @@ import java.awt.event.KeyEvent;
  *
  * @since 0.1.0
  */
-@SuppressWarnings("HardCodedStringLiteral")
+@SuppressWarnings("HardCodedStringLiteral") //todo make translatable
 final class MainMenuBar extends JMenuBar
 {
     private static final Logger LOG = LogManager.getLogger();

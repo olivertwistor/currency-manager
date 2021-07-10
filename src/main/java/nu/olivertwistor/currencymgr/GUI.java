@@ -1,4 +1,4 @@
-package nu.olivertwistor.currencymgr.ui;
+package nu.olivertwistor.currencymgr;
 
 import nu.olivertwistor.currencymgr.database.CurrencyFile;
 import org.apache.logging.log4j.LogManager;
@@ -14,7 +14,7 @@ import javax.swing.WindowConstants;
  *
  * @since 0.1.0
  */
-@SuppressWarnings("HardCodedStringLiteral")
+@SuppressWarnings("HardCodedStringLiteral") //todo make translatable
 public final class GUI extends JFrame
 {
     private static final Logger LOG = LogManager.getLogger();
@@ -22,7 +22,6 @@ public final class GUI extends JFrame
     private static final int WIDTH = 800;
     private static final int HEIGHT = 600;
 
-    @SuppressWarnings("unused")
     private transient CurrencyFile currencyFile;
 
     /**

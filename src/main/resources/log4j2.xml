@@ -2,14 +2,14 @@
 <Configuration status="warn">
     <Appenders>
         <Console name="LogToConsole" target="SYSTEM_OUT">
-            <PatternLayout pattern="%d{HH:mm:ss} %-5level %c::%M - %m%n"/>
+            <PatternLayout pattern="%d{HH:mm:ss} %-5level %c{2}::%M - %m%n"/>
         </Console>
         <RollingRandomAccessFile name="LogToRollingRandomAccessFile"
                                  fileName="logs/app.log"
                                  filePattern="logs/app-%d{yyyy-MM-dd}.log.gz">
             <PatternLayout>
                 <Pattern>
-                    %d{yyyy-MM-dd HH:mm:ss} %-5p %c::%M - %m%n
+                    %d{yyyy-MM-dd HH:mm:ss} %-5p %c{2}::%M - %m%n
                 </Pattern>
             </PatternLayout>
             <Policies>

@@ -6,7 +6,9 @@ import org.sqlite.SQLiteConfig;
 import org.sqlite.SQLiteDataSource;
 
 import java.sql.Connection;
+import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 
 /**
  * The database is where the data storage and retrieval happens, to and from
@@ -16,12 +18,12 @@ import java.sql.SQLException;
  *
  * @since 0.1.0
  */
-@SuppressWarnings("HardCodedStringLiteral")
-class Database
+public class Database
 {
     private static final Logger LOG = LogManager.getLogger();
 
     private final SQLiteDataSource dataSource;
+    private Connection connection;
 
     /**
      * Creates a new database object from a specified filename. A data source
@@ -35,7 +37,7 @@ class Database
      *
      * @since 0.1.0
      */
-    Database(final String filename)
+    public Database(final String filename)
     {
         final SQLiteConfig config = new SQLiteConfig();
         config.setEncoding(SQLiteConfig.Encoding.UTF8);
@@ -44,15 +46,115 @@ class Database
         final String url = String.format("jdbc:sqlite:%s", filename);
         this.dataSource.setUrl(url);
 
-        LOG.info("Created data source. URL: {}", this.dataSource.getUrl());
+        LOG.info("Created data source: {}", this.dataSource.getUrl());
     }
 
+    /**
+     * Gets the current version of the database.
+     *
+     * Whenever the database is upgraded through
+     * {@link DatabaseUpgrader#upgrade(Database, int)}, a new version number is
+     * stored in the database. It's that number that is retrieved by this
+     * method.
+     *
+     * @return The version number; or 0 if either the database is new, or the
+     *         table where the version history is stored doesn't exist.
+     *
+     * @throws SQLException if something went wrong while communicating with
+     *                      the database.
+     *
+     * @since //todo correct version
+     */
+    public int readCurrentVersion() throws SQLException
+    {
+        final Connection connection = this.getConnection();
+
+        // First, check if there even is a db_version table. If not, we have a
+        // new database file.
+        try (final Statement statement = connection.createStatement())
+        {
+            try (final ResultSet resultSet = statement.executeQuery(
+                    "SELECT tbl_name FROM sqlite_master WHERE tbl_name = " +
+                            "'db_version'"))
+            {
+                if (!resultSet.next())
+                {
+                    LOG.error("Database has no 'db_version' table.");
+                    return 0;
+                }
+            }
+        }
+
+        // Now we now that there is a db_version table. Let's read the latest
+        // version.
+        try (final Statement statement = connection.createStatement())
+        {
+            try (final ResultSet resultSet = statement.executeQuery(
+                    "SELECT version FROM db_version ORDER BY version DESC " +
+                            "LIMIT 1"))
+            {
+                if (resultSet.next())
+                {
+                    return resultSet.getInt("version");
+                }
+            }
+        }
+
+        return 0;
+    }
+
+    /**
+     * Gets a connection to the database. If any of the following is true, a
+     * new connection will be established before this method returns.
+     * Otherwise, the existing connection will be returned.
+     *
+     * <ul>
+     *     <li>the createNew parameter is true</li>
+     *     <li>there is no existing connection</li>
+     *     <li>the connection is invalid</li>
+     * </ul>
+     *
+     * @param createNew whether a new connection should be established,
+     *                  regardless of whether there already is one
+     *
+     * @return A connection to the database.
+     *
+     * @throws SQLException if something went wrong while communicating with
+     *                      the database.
+     *
+     * @since //todo correct version
+     */
+    @SuppressWarnings("WeakerAccess")
+    public Connection getConnection(final boolean createNew) throws SQLException
+    {
+        if (createNew ||
+                (this.connection == null) || this.connection.isValid(0))
+        {
+            LOG.trace("No previous valid connection found, or createNew flag " +
+                    "set to true. Getting a new connection.");
+
+            this.connection = this.dataSource.getConnection();
+        }
+
+        return this.connection;
+    }
+
+    /**
+     * Gets an already established connection to the database. If there is none
+     * or if it's invalid, a new connection will be created before this method
+     * returns.
+     *
+     * @return A connection to the database.
+     *
+     * @throws SQLException if something went wrong while communicating with
+     *                      the database.
+     *
+     * @since //todo correct version
+     */
+    @SuppressWarnings("PublicMethodWithoutLogging")
     public Connection getConnection() throws SQLException
     {
-        final Connection connection = this.dataSource.getConnection();
-        LOG.debug("Retrieved a connection from the data source.");
-
-        return connection;
+        return this.getConnection(false);
     }
 
     @SuppressWarnings("PublicMethodWithoutLogging")
@@ -61,6 +163,8 @@ class Database
     {
         return "Database{" +
                 "dataSource=" + this.dataSource +
+                ", connection=" +
+                    (this.connection != null ? this.connection : "null") +
                 '}';
     }
 }
