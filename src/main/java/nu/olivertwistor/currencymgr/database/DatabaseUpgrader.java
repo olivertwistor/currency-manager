@@ -57,7 +57,7 @@ public final class DatabaseUpgrader
      *
      * @since //todo correct version
      */
-    @SuppressWarnings("StaticMethodOnlyUsedInOneClass")
+    @SuppressWarnings({"StaticMethodOnlyUsedInOneClass", "ProhibitedExceptionCaught"})
     public static boolean upgrade(final Database database,
                                   final int targetVersion) throws SQLException
     {
@@ -94,6 +94,35 @@ public final class DatabaseUpgrader
         return success;
     }
 
+    /**
+     * Downgrades the database from its current version to a target version, by
+     * executing a series of SQL statements.
+     *
+     * If the current version is lower than or equal to target version, this
+     * method will do nothing, except simply return true. Otherwise, it will go
+     * through step by step the downgrade process, one version at a time. For
+     * example, a database at version 4 and target version 2 will first be
+     * downgraded from 4 to 3, then from 3 to 2.
+     *
+     * Please note that database version aren't equivalent to application
+     * version. The same application version (e.g. 1.3.0) may see multiple
+     * database versions, and vice versa, a single database verion may see
+     * multiple application versions, if the application changes don't involve
+     * changes in the database.
+     *
+     * @param database which database to upgrade
+     * @param targetVersion the version to which to downgrade (note that this
+     *                      is not the same as application version)
+     *
+     * @return Whether the complete downgrade process succeeded. Returns true
+     *         if there's no need to downgrade.
+     *
+     * @throws SQLException if something went wrong while communicating with
+     *                      the database.
+     *
+     * @since //todo correct version
+     */
+    @SuppressWarnings({"RedundantThrows", "unused"})
     public static boolean downgrade(final Database database,
                                     final int targetVersion)
             throws SQLException
@@ -102,6 +131,20 @@ public final class DatabaseUpgrader
         throw new UnsupportedOperationException("not implemented");
     }
 
+    /**
+     * Writes the current database version info to the database. In addition to
+     * the provided version number, today's date will be written .
+     *
+     * @param connection a connection to the database to which to write
+     * @param version    the version to write
+     *
+     * @return Whether the operation succeeded.
+     *
+     * @throws SQLException if anything went wrong while communicating with the
+     *                      database.
+     *
+     * @since //todo correct version
+     */
     private static boolean writeCurrentVersion(final Connection connection,
                                                final int version)
             throws SQLException
@@ -125,6 +168,18 @@ public final class DatabaseUpgrader
         }
     }
 
+    /**
+     * Loads a resource stream and executes the contents on a database.
+     *
+     * @param database the database on which to execute the resource stream
+     * @param stream   path to the resource to load
+     *
+     * @throws SQLException         if anything went wrong while communicating
+     *                              with the database.
+     * @throws NullPointerException if the resource couldn't be found
+     *
+     * @since //todo correct version
+     */
     @SuppressWarnings("JDBCExecuteWithNonConstantString")
     private static void executeUpdateFromResStream(final Database database,
                                                    final String stream)
@@ -139,6 +194,11 @@ public final class DatabaseUpgrader
         }
     }
 
+    /**
+     * Empty constructor, used only to prevent instantiation.
+     *
+     * @since //todo correct version
+     */
     private DatabaseUpgrader()
     {
         // Just for preventing instantiation.
