@@ -76,6 +76,7 @@ public final class OpenFileAction extends AbstractAction
         }
     }
 
+    @SuppressWarnings("PublicMethodWithoutLogging")
     @Override
     public String toString()
     {

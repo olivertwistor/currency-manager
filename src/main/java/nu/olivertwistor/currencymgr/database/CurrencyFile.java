@@ -58,6 +58,7 @@ public class CurrencyFile
         LOG.error("not yet fully implemented");
     }
 
+    @SuppressWarnings("PublicMethodWithoutLogging")
     @Override
     public String toString()
     {

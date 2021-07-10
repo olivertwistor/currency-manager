@@ -70,6 +70,7 @@ abstract class AbstractDialogSaveAction extends AbstractAction
         }
     }
 
+    @SuppressWarnings("PublicMethodWithoutLogging")
     @Override
     public String toString()
     {

@@ -49,6 +49,7 @@ public final class SaveFileAction extends AbstractAction
         LOG.error("not yet implemented");
     }
 
+    @SuppressWarnings("PublicMethodWithoutLogging")
     @Override
     public String toString()
     {

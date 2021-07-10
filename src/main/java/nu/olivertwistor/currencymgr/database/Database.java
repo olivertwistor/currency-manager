@@ -81,6 +81,7 @@ public class Database
             {
                 if (!resultSet.next())
                 {
+                    LOG.error("Database has no 'db_version' table.");
                     return 0;
                 }
             }
@@ -128,12 +129,12 @@ public class Database
     @SuppressWarnings("WeakerAccess")
     public Connection getConnection(final boolean createNew) throws SQLException
     {
-        if (createNew)
+        if (createNew ||
+                (this.connection == null) || this.connection.isValid(0))
         {
-            this.connection = this.dataSource.getConnection();
-        }
-        else if ((this.connection == null) || !this.connection.isValid(0))
-        {
+            LOG.trace("No previous valid connection found, or createNew flag " +
+                    "set to true. Getting a new connection.");
+
             this.connection = this.dataSource.getConnection();
         }
 
@@ -152,12 +153,13 @@ public class Database
      *
      * @since //todo correct version
      */
+    @SuppressWarnings("PublicMethodWithoutLogging")
     public Connection getConnection() throws SQLException
     {
         return this.getConnection(false);
     }
 
-    /**
+    @SuppressWarnings("PublicMethodWithoutLogging")
      * Returns a {@link LocalDate} object as a string, formatted as yyyy-MM-dd,
      * for example 2021-07-05.
      *
@@ -188,6 +190,8 @@ public class Database
     {
         return "Database{" +
                 "dataSource=" + this.dataSource +
+                ", connection=" +
+                    (this.connection != null ? this.connection : "null") +
                 '}';
     }
 }

@@ -60,6 +60,7 @@ public final class GUI extends JFrame
         this.currencyFile = currencyFile;
     }
 
+    @SuppressWarnings("PublicMethodWithoutLogging")
     @Override
     public String toString()
     {

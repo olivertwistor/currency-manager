@@ -198,6 +198,7 @@ public class Currency
         }
     }
 
+    @SuppressWarnings("PublicMethodWithoutLogging")
     @Override
     public String toString()
     {

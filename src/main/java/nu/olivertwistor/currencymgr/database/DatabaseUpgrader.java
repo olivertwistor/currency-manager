@@ -98,6 +98,7 @@ public final class DatabaseUpgrader
                                     final int targetVersion)
             throws SQLException
     {
+        LOG.error("not implemented");
         throw new UnsupportedOperationException("not implemented");
     }
 
