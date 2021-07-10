@@ -9,8 +9,6 @@ import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
-import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
 
 /**
  * The database is where the data storage and retrieval happens, to and from
@@ -160,31 +158,6 @@ public class Database
     }
 
     @SuppressWarnings("PublicMethodWithoutLogging")
-     * Returns a {@link LocalDate} object as a string, formatted as yyyy-MM-dd,
-     * for example 2021-07-05.
-     *
-     * @param date the LocalDate to return as a string
-     *
-     * @return The provided LocalDate as a ISO date formatted string.
-     *
-     * @since //todo correct version
-     */
-    private static String getDate(final LocalDate date)
-    {
-        final DateTimeFormatter formatter = DateTimeFormatter.ISO_LOCAL_DATE;
-        final String dateString = date.format(formatter);
-
-        LOG.debug("Formatted {} using {}, resulting in {}.",
-                date, formatter, dateString);
-
-        return dateString;
-    }
-
-    static String getToday()
-    {
-        return getDate(LocalDate.now());
-    }
-
     @Override
     public String toString()
     {

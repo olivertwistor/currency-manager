@@ -8,6 +8,8 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 
 /**
  * This class handles the upgrading and downgrading of the database.
@@ -153,7 +155,7 @@ public final class DatabaseUpgrader
                 "INSERT INTO db_version (version, date) VALUES (?, ?)"))
         {
             statement.setInt(1, version);
-            statement.setString(2, Database.getToday());
+            statement.setString(2, getToday());
 
             final int nRows = statement.executeUpdate();
             if (nRows > 0)
@@ -192,6 +194,32 @@ public final class DatabaseUpgrader
                     stream, DatabaseUpgrader.class);
             statement.executeUpdate(sqlString);
         }
+    }
+
+    /**
+     * Returns a {@link LocalDate} object as a string, formatted as yyyy-MM-dd,
+     * for example 2021-07-05.
+     *
+     * @param date the LocalDate to return as a string
+     *
+     * @return The provided LocalDate as a ISO date formatted string.
+     *
+     * @since //todo correct version
+     */
+    private static String getDate(final LocalDate date)
+    {
+        final DateTimeFormatter formatter = DateTimeFormatter.ISO_LOCAL_DATE;
+        final String dateString = date.format(formatter);
+
+        LOG.debug("Formatted {} using {}, resulting in {}.",
+                date, formatter, dateString);
+
+        return dateString;
+    }
+
+    private static String getToday()
+    {
+        return getDate(LocalDate.now());
     }
 
     /**
