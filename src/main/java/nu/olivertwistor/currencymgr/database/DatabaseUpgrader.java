@@ -76,21 +76,36 @@ public final class DatabaseUpgrader
         }
 
         boolean success = false;
+        final Connection connection = database.getConnection();
 
         if (currentVersion <= 0)
         {
             // If current version is 0, we know that there is no database set
             // up, so we need to create it.
-            executeUpdateFromResStream(database,
-                    "/db/0/create-table-dbversion.sql"); //NON-NLS
-            executeUpdateFromResStream(database,
-                    "/db/0/create-index-dbversion-version.sql"); //NON-NLS
-            executeUpdateFromResStream(database,
-                    "/db/0/create-table-currency.sql"); //NON-NLS
+            connection.setAutoCommit(false);
+            try
+            {
+                executeUpdateFromResStream(database,
+                        "/db/0/create-table-dbversion.sql"); //NON-NLS
+                executeUpdateFromResStream(database,
+                        "/db/0/create-index-dbversion-version.sql"); //NON-NLS
+                executeUpdateFromResStream(database,
+                        "/db/0/create-table-currency.sql"); //NON-NLS
 
-            // Write back the updated version number.
-            success = writeCurrentVersion(database.getConnection(), 1);
-            LOG.info("Updated the database from version 0 to 1.");
+                // Write back the updated version number.
+                success = writeCurrentVersion(database.getConnection(), 1);
+                connection.commit();
+                LOG.info("Updated the database from version 0 to 1.");
+            }
+            catch (final NullPointerException e)
+            {
+                LOG.error("Failed to load resource.", e);
+                connection.rollback();
+            }
+            finally
+            {
+                connection.setAutoCommit(true);
+            }
         }
 
         return success;
