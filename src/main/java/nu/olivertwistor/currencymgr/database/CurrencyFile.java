@@ -1,5 +1,6 @@
 package nu.olivertwistor.currencymgr.database;
 
+import nu.olivertwistor.currencymgr.currency.Currency;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -18,6 +19,7 @@ public class CurrencyFile
     private static final Logger LOG = LogManager.getLogger();
 
     private final Database database;
+    private Currency baseCurrency;
 
     /**
      * Creates a new currency file object by creating a new {@link Database}
@@ -37,12 +39,17 @@ public class CurrencyFile
      *
      * @throws SQLException if a database connection failed to be established
      *
+     * @return Whether the save succeeded.
+     *
+     * @since 0.2.0 Has a boolean return value now, to signal whether the save
+     *              succeeded.
      * @since 0.1.0
      */
-    public void save() throws SQLException
+    public boolean save() throws SQLException
     {
         this.database.getConnection();
         LOG.error("not yet fully implemented");
+        return false;
     }
 
     /**
@@ -56,6 +63,11 @@ public class CurrencyFile
     {
         this.database.getConnection();
         LOG.error("not yet fully implemented");
+    }
+
+    public void setBaseCurrency(final Currency baseCurrency)
+    {
+        this.baseCurrency = baseCurrency;
     }
 
     @SuppressWarnings("PublicMethodWithoutLogging")
